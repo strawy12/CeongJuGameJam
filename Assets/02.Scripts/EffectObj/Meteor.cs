@@ -42,6 +42,8 @@ public class Meteor : PoolableMono
 
     private void Release()
     {
+        MainCamera.ShakeCamera(0.3f);
+
         Explosion explosion = PoolManager.Inst.Pop(Constant.EXPLOSION_NAME) as Explosion;
         explosion.transform.position = transform.position;
         explosion.Init();

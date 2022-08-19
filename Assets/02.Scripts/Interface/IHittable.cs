@@ -5,6 +5,6 @@ using UnityEngine;
 public interface IHittable
 {
     public Vector3 HitPoint { get; }
-    public void GetHit(float damage, GameObject damageDealer);
+    public void GetHit(float damage, GameObject damageDealer, float duration);
     public void GetCrowdCtrl(ECrowdControlType type, float amount, float duration);
 }

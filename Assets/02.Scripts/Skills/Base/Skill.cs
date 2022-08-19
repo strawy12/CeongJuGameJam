@@ -52,24 +52,26 @@ public abstract class Skill : PoolableMono
     {
         IHittable hitAgent = hit.GetComponent<IHittable>();
 
-        if (hitAgent != null&& _skillData.damage > 0f)
+        foreach (var ccEffect in _skillData.ccList)
         {
-            hitAgent?.GetHit(_skillData.damage, gameObject);
+            if (hitAgent != null && ccEffect.ccType > ECrowdControlType.None)
+            {
+                hitAgent?.GetCrowdCtrl(ccEffect.ccType, ccEffect.ccAamout, ccEffect.ccDuration);
+            }
+
+            else if(hitAgent != null && ccEffect.ccType == ECrowdControlType.Attack)
+            {
+                hitAgent?.GetHit(ccEffect.ccAamout, gameObject, ccEffect.ccDuration);
+            }
+
+            else if (ccEffect.ccType == ECrowdControlType.Knockback)
+            {
+                IKnockback knockbackAgent = hit.GetComponent<IKnockback>();
+                Vector2 dir = hit.transform.position - transform.position;
+
+                knockbackAgent?.GetKnockback(dir.normalized, ccEffect.ccAamout, ccEffect.ccDuration);
+            }
+
         }
-
-        if (hitAgent != null && _skillData.ccType > ECrowdControlType.Knockback)
-        {
-            hitAgent?.GetCrowdCtrl(_skillData.ccType, _skillData.ccAamout, _skillData.ccDuration);
-        }
-
-        if (_skillData.ccType == ECrowdControlType.Knockback)
-        {
-            IKnockback knockbackAgent = hit.GetComponent<IKnockback>();
-            Vector2 dir = hit.transform.position - transform.position;
-
-            knockbackAgent?.GetKnockback(dir.normalized, _skillData.ccAamout, _skillData.ccDuration);
-        }
-
-        // IHittable ÀÌ¿כ
     }
 }

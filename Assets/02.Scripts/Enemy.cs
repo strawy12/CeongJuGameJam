@@ -13,7 +13,37 @@ public class Enemy : MonoBehaviour, IKnockback, IHittable
     {
         _rigid = GetComponent<Rigidbody2D>();
     }
+    public void GetHit(float damage, GameObject damageDealer, float duration)
+    {
+        StartCoroutine(HitDamageCoroutine(damage, duration));
+    }
 
+    public void GetCrowdCtrl(ECrowdControlType type, float amount, float duration)
+    {
+        switch (type)
+        {
+            case ECrowdControlType.Slow:
+                // 스피드 줄이기
+                break;
+            case ECrowdControlType.Stun:
+                // 움직임 멈춤
+                break;
+            case ECrowdControlType.Heal:
+                break;
+        }
+    }
+
+    private IEnumerator HitDamageCoroutine(float damage, float duration)
+    {
+        do //(duration > 0f)
+        {
+            // 데미지 받음
+            duration -= 1f;
+            yield return new WaitForSeconds(1f);
+        } while (duration > 0f);
+    }
+
+    #region Knockback
     public void GetKnockback(Vector2 dir, float power, float duration)
     {
         if (_isKnockbacking) return;
@@ -36,12 +66,5 @@ public class Enemy : MonoBehaviour, IKnockback, IHittable
         _rigid.velocity = Vector2.zero;
         _isKnockbacking = false;
     }
-
-    public void GetHit(float damage, GameObject damageDealer)
-    {
-    }
-
-    public void GetCrowdCtrl(ECrowdControlType type, float amount, float duration)
-    {
-    }
+    #endregion
 }

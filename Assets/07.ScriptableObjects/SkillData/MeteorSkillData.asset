@@ -12,12 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 739ebadef71838246ba134f18729d9bd, type: 3}
   m_Name: MeteorSkillData
   m_EditorClassIdentifier: 
-  radius: 5
-  damage: 1
+  cardName: "\uBA54\uD14C\uC624"
+  radius: 2
   startDelay: 0.5
   afterDelay: 0
-  ccType: 1
-  ccDuration: 0.25
-  ccAamout: 20
+  ccList:
+  - ccType: -2
+    ccDuration: 1
+    ccAamout: 5
+  - ccType: 2
+    ccDuration: 5
+    ccAamout: 10
   isImmediated: 1
   skillDuration: 0

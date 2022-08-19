@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class MeteorSkill : Skill
 {
-
-    
     public override void Reset()
     {
     }

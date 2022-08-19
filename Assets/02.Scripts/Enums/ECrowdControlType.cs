@@ -4,6 +4,10 @@ using UnityEngine;
 
 public enum ECrowdControlType 
 {
+    Attack = -2,
+    Knockback = -1,
     None = 0,
-    Knockback,
+    Slow,
+    Stun,
+    Heal,
 }

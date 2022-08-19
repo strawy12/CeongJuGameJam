@@ -2,23 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-[CreateAssetMenu(menuName = "SO/SkillData")]
-public class SkillDataSO : ScriptableObject
+[System.Serializable]
+public class CrowdCtrl
 {
-    public float radius = 5f;
-    public float damage = 1f;
-
-    /// <summary>
-    /// 선딜
-    /// </summary>
-    public float startDelay = 0f;
-
-    /// <summary>
-    /// 후딜
-    /// </summary>
-    public float afterDelay = 0f;
-
     /// <summary>
     /// cc기 타입
     /// </summary>
@@ -33,6 +19,26 @@ public class SkillDataSO : ScriptableObject
     /// cc기 수치
     /// </summary>
     public float ccAamout = 0f;
+}
+
+
+[CreateAssetMenu(menuName = "SO/SkillData")]
+public class SkillDataSO : ScriptableObject
+{
+    public string cardName;
+    public float radius = 5f;
+
+    /// <summary>
+    /// 선딜
+    /// </summary>
+    public float startDelay = 0f;
+
+    /// <summary>
+    /// 후딜
+    /// </summary>
+    public float afterDelay = 0f;
+
+    public List<CrowdCtrl> ccList;
 
     /// <summary>
     /// 즉발형 여부 확인
