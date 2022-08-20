@@ -74,4 +74,10 @@ public abstract class Skill : PoolableMono
 
         }
     }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, _skillData.radius);
+    }
 }

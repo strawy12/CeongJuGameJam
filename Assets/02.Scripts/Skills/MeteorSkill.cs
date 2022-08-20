@@ -8,10 +8,6 @@ public class MeteorSkill : Skill
     {
     }
 
-    private void Start()
-    {
-        UsingSkill();
-    }
 
     public override void UsingSkill()
     {

@@ -5,10 +5,12 @@ using UnityEngine;
 [System.Serializable]
 public class Item
 {
-    public string name; //카드이름
+    public string cardName; //카드이름
+    public string skillName; //스킬이름
     public Sprite sprite;
     public int cost; //카드 코스트
-    public float per;
+    public int grade;
+    public int percent;
 }
 
 [CreateAssetMenu(fileName = "ItemSO", menuName = "Scriptable Object/ItemSO")]
