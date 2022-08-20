@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 739ebadef71838246ba134f18729d9bd, type: 3}
-  m_Name: StunSkillData
+  m_Name: PhotonSkillData
   m_EditorClassIdentifier: 
-  cardName: "\uC2A4\uD134"
+  cardName: "\uAD11\uC790\uD3ED\uD0C4"
   radius: 6
   startDelay: 0
   afterDelay: 0
