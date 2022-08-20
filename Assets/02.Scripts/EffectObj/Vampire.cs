@@ -6,7 +6,6 @@ using DG.Tweening;
 public class Vampire : PoolableMono
 {
     private Animator _animator;
-    private readonly int HASH_VAMPIRE = Animator.StringToHash("Vampire");
 
     public override void Reset()
     {
@@ -17,7 +16,7 @@ public class Vampire : PoolableMono
     [ContextMenu("11")]
     public void Init(Vector3 pos)
     {
-        _animator.Play(HASH_VAMPIRE);
+        _animator.Play("New Animation");
         transform.localScale = Vector3.zero;
         transform.position = pos;
 

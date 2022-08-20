@@ -16,6 +16,12 @@ MonoBehaviour:
   radius: 5
   startDelay: 0
   afterDelay: 0
-  ccList: []
+  ccList:
+  - ccType: -2
+    ccDuration: 1
+    ccAamout: 20
+  - ccType: 2
+    ccDuration: 10
+    ccAamout: 0
   isImmediated: 0
-  skillDuration: 0
+  skillDuration: 2

@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
+        
         currentHp = maxHp;
 
         hpBar.SetMaxHealth(maxHp);
@@ -26,5 +27,14 @@ public class Player : MonoBehaviour
         {
             EventManager.TriggerEvent("GameOver");
         }
+    }
+    
+    public void GetHeal(float healHp)
+    {
+        currentHp += healHp;
+        if (currentHp > maxHp)
+            currentHp = maxHp;
+
+        hpBar.SetHealth(currentHp);
     }
 }

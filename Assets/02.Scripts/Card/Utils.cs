@@ -17,6 +17,19 @@ public class PS
 
 public class Utils : MonoBehaviour
 {
+    private static Player _playerRef;
+    public static Player PlayerRef
+    {
+        get
+        {
+            if (_playerRef == null)
+            {
+                _playerRef = FindObjectOfType<Player>();
+            }
+
+            return _playerRef;
+        }
+    }
     public static Quaternion QI => Quaternion.identity;
 
     public static Vector3 MousePos

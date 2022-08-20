@@ -13,12 +13,15 @@ MonoBehaviour:
   m_Name: PhotonSkillData
   m_EditorClassIdentifier: 
   cardName: "\uAD11\uC790\uD3ED\uD0C4"
-  radius: 6
+  radius: 2.5
   startDelay: 0
   afterDelay: 0
   ccList:
   - ccType: 2
-    ccDuration: 0
-    ccAamout: 2
-  isImmediated: 0
+    ccDuration: 2
+    ccAamout: 0
+  - ccType: -2
+    ccDuration: 1
+    ccAamout: 20
+  isImmediated: 1
   skillDuration: 0

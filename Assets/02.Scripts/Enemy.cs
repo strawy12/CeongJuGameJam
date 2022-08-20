@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour, IKnockback, IHittable
+public class Enemy : PoolableMono, IKnockback, IHittable
 {
     private Rigidbody2D _rigid = null;
+    private SpriteRenderer _spriteRenderer;
     private bool _isKnockbacking;
 
     public Vector3 HitPoint { get; set; }
@@ -37,6 +38,7 @@ public class Enemy : MonoBehaviour, IKnockback, IHittable
         {
             hpBar = GetComponentInChildren<HpBar>();
         }
+        _spriteRenderer = GetComponent<SpriteRenderer>();
         _rigid = GetComponent<Rigidbody2D>();
     }
 
@@ -49,6 +51,9 @@ public class Enemy : MonoBehaviour, IKnockback, IHittable
     {
         if (isStunning)
             return;
+        if (_isKnockbacking)
+            return;
+
         _rigid.MovePosition(_rigid.position + Vector2.down * (moveSpeed / 4) * Time.fixedDeltaTime);
     }
 
@@ -56,8 +61,15 @@ public class Enemy : MonoBehaviour, IKnockback, IHittable
     private void TakeDamage(float damage)
     {
         currentHp -= damage;
-
+        StartCoroutine(HitEffect());
         hpBar.SetHealth(currentHp);
+    }
+
+    private IEnumerator HitEffect()
+    {
+        _spriteRenderer.color = Color.red;
+        yield return new WaitForSeconds(0.3f);
+        _spriteRenderer.color = Color.white;
     }
 
 
@@ -98,7 +110,7 @@ public class Enemy : MonoBehaviour, IKnockback, IHittable
 
     public void GetCrowdCtrl(ECrowdControlType type, float amount, float duration)
     {
-        if (_givedCCEffectList.TrueForAll(x => x == type)) return;
+        if (_givedCCEffectList.Exists(x => x == type)) return;
 
         switch (type)
         {
@@ -110,14 +122,13 @@ public class Enemy : MonoBehaviour, IKnockback, IHittable
                 StartCoroutine(SlowCoroutine(amount, duration));
                 break;
             case ECrowdControlType.Stun:
-
                 // ¿òÁ÷ÀÓ ¸ØÃã
                 StartCoroutine(StunCoroutine(duration));
                 break;
             case ECrowdControlType.Heal:
                 // µ¥¹ÌÁö¸¸ ´â°Ô ÇÏ±â
 
-                StartCoroutine(HitDamageCoroutine(amount, duration));
+                StartCoroutine(HealCoroutine(amount, duration));
                 break;
         }
 
@@ -134,16 +145,19 @@ public class Enemy : MonoBehaviour, IKnockback, IHittable
         yield return new WaitForSeconds(duration);
 
         moveSpeed += amount;
-        isSlowing = false;  
+        isSlowing = false;
+        _givedCCEffectList.Remove(ECrowdControlType.Slow);
     }
 
     private IEnumerator StunCoroutine(float duration)
     {
+
         isStunning = true;
 
         yield return new WaitForSeconds(duration);
 
-        isStunning = false; 
+        isStunning = false;
+        _givedCCEffectList.Remove(ECrowdControlType.Stun);
     }
 
     private IEnumerator HitDamageCoroutine(float damage, float duration)
@@ -155,6 +169,21 @@ public class Enemy : MonoBehaviour, IKnockback, IHittable
              duration -= 1f;
             yield return new WaitForSeconds(1f);
         } while (duration > 0f);
+        _isDamaged = false;
+    }
+        private IEnumerator HealCoroutine(float damage, float duration)
+    {
+        int dotDamage = (int)(damage / duration);
+        do //(duration > 0f)
+        {
+            TakeDamage(dotDamage);
+            Utils.PlayerRef.GetHeal(dotDamage * 0.25f);
+             duration -= 1f;
+            yield return new WaitForSeconds(1f);
+        } while (duration > 0f);
+        _isDamaged = false;
+
+        _givedCCEffectList.Remove(ECrowdControlType.Heal);
     }
 
     #region Knockback
@@ -179,6 +208,16 @@ public class Enemy : MonoBehaviour, IKnockback, IHittable
         //moveSpeed = 0;
         _rigid.velocity = Vector2.zero;
         _isKnockbacking = false;
+    }
+
+    public override void Reset()
+    {
+        if (hpBar == null)
+        {
+            hpBar = GetComponentInChildren<HpBar>();
+        }
+        _spriteRenderer ??= GetComponent<SpriteRenderer>();
+        _rigid ??= GetComponent<Rigidbody2D>();
     }
     #endregion
 }

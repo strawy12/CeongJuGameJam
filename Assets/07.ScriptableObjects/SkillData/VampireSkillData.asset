@@ -13,9 +13,12 @@ MonoBehaviour:
   m_Name: VampireSkillData
   m_EditorClassIdentifier: 
   cardName: "\uD761\uD608"
-  radius: 5
+  radius: 2
   startDelay: 0
   afterDelay: 0
-  ccList: []
+  ccList:
+  - ccType: 3
+    ccDuration: 3
+    ccAamout: 20
   isImmediated: 0
-  skillDuration: 0
+  skillDuration: 3

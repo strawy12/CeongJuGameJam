@@ -11,6 +11,7 @@ public class BillizardSkill : Skill
         Billizard billizard = PoolManager.Inst.Pop(Constant.BLLIZARD_NAME) as Billizard;
         billizard.Init(transform.position);
 
+        _detectTrm = billizard.transform;
         base.UsingSkill();
     }
 

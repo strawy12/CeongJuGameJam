@@ -8,6 +8,9 @@ public abstract class Skill : PoolableMono
     [SerializeField] protected LayerMask _enemyLayer;
     [SerializeField] protected SkillDataSO _skillData;
 
+    protected Transform _detectTrm;
+
+
     public virtual void UsingSkill()
     {
         StartCoroutine(DetectCoroutine());
@@ -40,7 +43,12 @@ public abstract class Skill : PoolableMono
 
     protected virtual void Detect()
     {
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, _skillData.radius, _enemyLayer);
+        if (_detectTrm == null)
+            _detectTrm = transform;
+
+        Collider2D[] hits = Physics2D.OverlapCircleAll(_detectTrm.position, _skillData.radius, _enemyLayer);
+
+
         foreach (var hit in hits)
         {
             AttackTarget(hit);
@@ -56,10 +64,11 @@ public abstract class Skill : PoolableMono
         {
             if (hitAgent != null && ccEffect.ccType > ECrowdControlType.None)
             {
+                Debug.Log(ccEffect.ccType);
                 hitAgent?.GetCrowdCtrl(ccEffect.ccType, ccEffect.ccAamout, ccEffect.ccDuration);
             }
 
-            else if(hitAgent != null && ccEffect.ccType == ECrowdControlType.Attack)
+            else if (hitAgent != null && ccEffect.ccType == ECrowdControlType.Attack)
             {
                 hitAgent?.GetHit(ccEffect.ccAamout, gameObject, ccEffect.ccDuration);
             }
@@ -67,7 +76,7 @@ public abstract class Skill : PoolableMono
             else if (ccEffect.ccType == ECrowdControlType.Knockback)
             {
                 IKnockback knockbackAgent = hit.GetComponent<IKnockback>();
-                Vector2 dir = hit.transform.position - transform.position;
+                Vector2 dir = transform.position - hit.transform.position;
 
                 knockbackAgent?.GetKnockback(dir.normalized, ccEffect.ccAamout, ccEffect.ccDuration);
             }
@@ -78,6 +87,6 @@ public abstract class Skill : PoolableMono
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, _skillData.radius);
+        Gizmos.DrawWireSphere(_detectTrm.position, _skillData.radius);
     }
 }

@@ -49,9 +49,6 @@ TagManager:
   - name: Monster
     uniqueID: 3312831375
     locked: 0
-  - name: Skill
-    uniqueID: 4077034691
-    locked: 0
   - name: Wall
     uniqueID: 1623970847
     locked: 0
@@ -63,4 +60,7 @@ TagManager:
     locked: 0
   - name: UI
     uniqueID: 1340679287
+    locked: 0
+  - name: Skill
+    uniqueID: 4077034691
     locked: 0

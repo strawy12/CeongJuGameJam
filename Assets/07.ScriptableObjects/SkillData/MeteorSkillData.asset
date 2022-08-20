@@ -13,15 +13,15 @@ MonoBehaviour:
   m_Name: MeteorSkillData
   m_EditorClassIdentifier: 
   cardName: "\uBA54\uD14C\uC624"
-  radius: 2
+  radius: 4.6
   startDelay: 0.5
   afterDelay: 0
   ccList:
   - ccType: -2
     ccDuration: 1
-    ccAamout: 5
-  - ccType: 2
-    ccDuration: 5
-    ccAamout: 10
+    ccAamout: 20
+  - ccType: -1
+    ccDuration: 1
+    ccAamout: 30
   isImmediated: 1
   skillDuration: 0

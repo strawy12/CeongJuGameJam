@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 157525987806727201}
   - component: {fileID: -8046189760707383182}
   - component: {fileID: 5940124403994124739}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: RedSlime
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -102,14 +102,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyName: "\uBD89\uC740 \uC2AC\uB77C\uC784"
-  currentHp: 150
+  currentHp: 405
   maxHP: 400
   increaseHP: 15
   baseHp: 150
-  moveSpeed: 5.5
-  increaseMoveSpeed: 0.2
+  moveSpeed: 8.0999975
+  increaseMoveSpeed: 1
   maxMoveSpeed: 8
-  baseMoveSpeed: 5.5
+  baseMoveSpeed: 2
   damage: 70
   hpBar: {fileID: 8072008003121241532}
 --- !u!58 &157525987806727201
@@ -136,19 +136,19 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 157525987806727194}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!95 &5940124403994124739
 Animator:
   serializedVersion: 4
@@ -181,7 +181,7 @@ GameObject:
   - component: {fileID: 7821122925350593279}
   - component: {fileID: 907833486016498968}
   - component: {fileID: 6642281922886457623}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -361,9 +361,29 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1704779974445520155, guid: 9ab474e13ec63944383c4c2008a1d564, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4821672427629047123, guid: 9ab474e13ec63944383c4c2008a1d564, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5687211786354189139, guid: 9ab474e13ec63944383c4c2008a1d564, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7930947293052950240, guid: 9ab474e13ec63944383c4c2008a1d564, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 8413202647789855795, guid: 9ab474e13ec63944383c4c2008a1d564, type: 3}
       propertyPath: m_Name
       value: HpBar
+      objectReference: {fileID: 0}
+    - target: {fileID: 8413202647789855795, guid: 9ab474e13ec63944383c4c2008a1d564, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8591644820834465613, guid: 9ab474e13ec63944383c4c2008a1d564, type: 3}
       propertyPath: m_AnchorMax.x

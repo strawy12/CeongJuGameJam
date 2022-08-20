@@ -47,4 +47,4 @@ MonoBehaviour:
   _enemyLayer:
     serializedVersion: 2
     m_Bits: 64
-  _skillData: {fileID: 11400000, guid: 8ad351e6fbad34d4786a68f8dc3b38f0, type: 2}
+  _skillData: {fileID: 11400000, guid: cde349589acb02849a62a7af9b31b390, type: 2}

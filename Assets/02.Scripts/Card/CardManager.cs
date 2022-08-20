@@ -99,9 +99,23 @@ public class CardManager : MonoSingleton<CardManager>
     {
         Item item = GetRandomItem();
 
-        if (item.grade <= 3)
+        switch(item.grade)
         {
-            isPickGrade3Card = true;
+            case 1:
+                SetCardItemPercent(new int[] { 0, 10, 30, 60 });
+                break;
+         
+            case 2:
+                SetCardItemPercent(new int[] { 5, 15, 30, 50 });
+                break;
+            
+            case 3:
+                SetCardItemPercent(new int[] { 20, 20, 30, 30 });
+                break;
+            
+            case 4:
+                SetCardItemPercent(new int[] { 20, 30, 30, 20 });
+                break;
         }
 
         return item;
@@ -109,35 +123,6 @@ public class CardManager : MonoSingleton<CardManager>
 
     private Item GetRandomItem()
     {
-        if (isPickGrade3Card)
-        {
-            if (myCards.TrueForAll(x => x.item != null && x.item.grade <= 3))
-            {
-                isPickGrade3Card = false;
-                int[] percents = defaultPercents;
-
-                percents[0] = (int)(percents[0] * 1.5f);
-                percents[1] = (int)(percents[1] * 1.5f);
-
-                int overPercent = percents.Sum() - 100;
-
-                if (percents[3] < overPercent * 0.5f)
-                {
-                    overPercent -= percents[3];
-                    percents[3] = 0;
-                    percents[2] -= overPercent;
-                }
-
-                else
-                {
-                    percents[2] -= (int)(overPercent * 0.5f);
-                    percents[3] -= (int)(overPercent * 0.5f);
-                }
-
-                SetCardItemPercent(percents);
-            }
-        }
-
         int num = Random.Range(0, 100) + 1;
 
         for (int i = 0; i < itemSO.items.Length; i++)
@@ -238,6 +223,12 @@ public class CardManager : MonoSingleton<CardManager>
     }
     public void CardMouseUp()
     {
+        if (onMyCardArea)
+        {
+            selectCard.gameObject.SetActive(true);
+            ReleaseCard();
+            return;
+        }
         if (selectCard == null) return;
 
         int cost = selectCard._cost;

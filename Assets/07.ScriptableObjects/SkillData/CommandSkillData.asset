@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: CommandSkillData
   m_EditorClassIdentifier: 
   cardName: "\uD638\uB839"
-  radius: 5
+  radius: 2.8
   startDelay: 0
   afterDelay: 0
   ccList:
   - ccType: -2
-    ccDuration: 0
+    ccDuration: 1
     ccAamout: 50
-  isImmediated: 0
+  isImmediated: 1
   skillDuration: 0

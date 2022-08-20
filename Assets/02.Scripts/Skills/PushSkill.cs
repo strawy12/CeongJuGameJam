@@ -8,7 +8,8 @@ public class PushSkill : Skill
     public override void UsingSkill()
     {
         Push push = PoolManager.Inst.Pop(Constant.PUSH_NAME) as Push;
-        push.Init(transform.position);
+        push.Init();
+        _detectTrm = push.transform;
 
         base.UsingSkill();
     }

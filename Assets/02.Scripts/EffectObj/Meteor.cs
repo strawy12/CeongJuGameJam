@@ -14,13 +14,12 @@ public class Meteor : PoolableMono
     
     public void Init(Vector3 dest)
     {
-        Debug.Log("dd2");
         transform.localScale = Vector3.zero;
         transform.position = SetPos(dest);
         ChangeFace(dest, transform.position);
 
         Sequence seq = DOTween.Sequence();
-        seq.Append(transform.DOScale(Vector3.one * 2f, _moveDuration / 2f).SetEase(Ease.Linear));
+        seq.Append(transform.DOScale(Vector3.one * 3f, _moveDuration / 2f).SetEase(Ease.Linear));
         seq.Join(transform.DOMove(dest, _moveDuration).SetEase(Ease.Linear));
         seq.AppendCallback(Release);
     }
@@ -43,7 +42,6 @@ public class Meteor : PoolableMono
 
     private void Release()
     {
-        Debug.Log("dd");
         MainCamera.ShakeCamera(0.3f);
 
         Explosion explosion = PoolManager.Inst.Pop(Constant.EXPLOSION_NAME) as Explosion;
