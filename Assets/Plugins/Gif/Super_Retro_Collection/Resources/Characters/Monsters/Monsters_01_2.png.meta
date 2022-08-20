@@ -24,6 +24,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -33,8 +34,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -89,7 +90,70 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: Monsters_01_2_20
+      rect:
+        serializedVersion: 2
+        x: 14
+        y: 0
+        width: 20
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 27fcfca0a06d915499a1bc1467ad46e5
+      internalID: 72925299
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monsters_01_2_22
+      rect:
+        serializedVersion: 2
+        x: 62
+        y: 0
+        width: 20
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7f344b42ec7d28b46a780c4898e163df
+      internalID: -1981034510
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Monsters_01_2_24
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 0
+        width: 20
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cfddce7f36cd5fa438a588e46058d23f
+      internalID: -1033325978
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -100,6 +164,33 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      Monsters_01_2_24: -1033325978
+      Monsters_01_2_25: 1730992078
+      Monsters_01_2_15: 494923711
+      Monsters_01_2_5: -47811265
+      Monsters_01_2_16: 355435782
+      Monsters_01_2_6: 688772436
+      Monsters_01_2_3: 642450094
+      Monsters_01_2_12: 2063332416
+      Monsters_01_2_8: -222000110
+      Monsters_01_2_21: -1104755487
+      Monsters_01_2_1: 423481996
+      Monsters_01_2_7: 644180128
+      Monsters_01_2_9: 1763019123
+      Monsters_01_2_2: -1696161557
+      Monsters_01_2_22: -1981034510
+      Monsters_01_2_20: 72925299
+      Monsters_01_2_10: 1545879929
+      Monsters_01_2_4: 921103178
+      Monsters_01_2_17: 3659957
+      Monsters_01_2_23: 53291464
+      Monsters_01_2_19: -82536929
+      Monsters_01_2_14: 1371273212
+      Monsters_01_2_11: -1003318156
+      Monsters_01_2_0: 670924483
+      Monsters_01_2_18: -1049067888
+      Monsters_01_2_13: -1573545002
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
