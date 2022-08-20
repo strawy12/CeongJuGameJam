@@ -5,43 +5,43 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
 
-public class CardManager : MonoBehaviour
+public class CardManager : MonoSingleton<CardManager>
 {
-    public static CardManager Instance { get; private set; }
     //private void Awake()
     //{
     //    Instance = this;
     //}
-    void Awake() => Instance = this;
 
     [SerializeField] ItemSO itemSO;
     [SerializeField] GameObject cardPrefab;
     [SerializeField] List<Card> myCards;
     [SerializeField] Transform cardTransform; // 카드가 나오는 장소
 
-    [SerializeField] TextMeshProUGUI magicCostTxt;
-
     List<Item> itemBuffer;
     Card selectCard = null;
     bool isMyCardDrag;
     bool onMyCardArea;
 
-    private int magic; // cost에 사용에 필요한 마법
 
     private GraphicRaycaster graphicRaycaster;
 
-    private void magicCost()
+
+    private void Start()
     {
-        StartCoroutine(magicUp(1f));
-    }
-    IEnumerator magicUp(float time)
-    {
-        while (true)
+        SetupItemBuffer();
+        graphicRaycaster = GetComponent<GraphicRaycaster>();
+        for (int i = 0; i < 4; i++)
         {
-            if (magic < 10)
-                magic += 1;
-            yield return new WaitForSeconds(time);
+            AddCard(false);
         }
+    }
+    private void Update()
+    {
+        if (isMyCardDrag)
+        {
+            CardDrag();
+        }
+        DetectCardArea();
     }
 
     public Item PopItem()
@@ -71,26 +71,6 @@ public class CardManager : MonoBehaviour
             itemBuffer[i] = itemBuffer[rand];
             itemBuffer[rand] = temp;
         }
-    }
-
-    private void Start()
-    {
-        SetupItemBuffer();
-        magicCost();
-        graphicRaycaster = GetComponent<GraphicRaycaster>();
-        for (int i = 0; i < 4; i++)
-        {
-            AddCard(false);
-        }
-    }
-    private void Update()
-    {
-        magicCostTxt.text = magic.ToString();
-        if (isMyCardDrag)
-        {
-            CardDrag();
-        }
-        DetectCardArea();
     }
 
     private void CardDrag()
@@ -157,7 +137,7 @@ public class CardManager : MonoBehaviour
     {
         if (selectCard == null) return;
         int cost = selectCard._cost;
-        if (cost > magic)
+        if (cost > MagicCost.magic)
         {
             selectCard.transform.SetParent(cardTransform);
             selectCard = null;
@@ -165,7 +145,7 @@ public class CardManager : MonoBehaviour
         }
         else
         {
-            magic -= cost;
+            MagicCost.magic -= cost;
 
             SpawnSkill(selectCard.item.name);
 

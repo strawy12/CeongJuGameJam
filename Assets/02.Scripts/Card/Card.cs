@@ -37,11 +37,11 @@ public class Card : PoolableMono, IPointerDownHandler, IPointerUpHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        CardManager.Instance.CardMouseDown(this);
+        CardManager.Inst.CardMouseDown(this);
     }
     public void OnPointerUp(PointerEventData eventData)
     {
-        CardManager.Instance.CardMouseUp();
+        CardManager.Inst.CardMouseUp();
     }
 
     public override void Reset()
