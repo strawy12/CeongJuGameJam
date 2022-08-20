@@ -11,6 +11,7 @@ public class VampireSkill : Skill
         vampire.Init(transform.position);
 
         base.UsingSkill();
+        GameManager.Inst.StartBloodEffect();
     }
 
 

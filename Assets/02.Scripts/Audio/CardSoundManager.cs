@@ -7,7 +7,6 @@ public class CardSoundManager : SoundPlayer
     [SerializeField] private AudioClip _cardDrawClip; // 카드 뽑을 때 소리
     private void Start()
     {
-        VFX();
     }
     public void DrawCardSound()
     {

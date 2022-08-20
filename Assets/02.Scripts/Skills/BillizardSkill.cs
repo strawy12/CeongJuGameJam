@@ -13,6 +13,7 @@ public class BillizardSkill : Skill
 
         _detectTrm = billizard.transform;
         base.UsingSkill();
+        GameManager.Inst.StartBlizardEffect();
     }
 
 

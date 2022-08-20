@@ -20,13 +20,4 @@ public class SoundPlayer : MonoBehaviour
         _audioSource.Play();
 
     }
-    protected void VFX()
-    {
-        _audioSource.mute = _audioSetting._useVFX;
-    }
-    protected void BGM()
-    {
-        _audioSource.mute = _audioSetting._useBgm;
-    }
-
 }

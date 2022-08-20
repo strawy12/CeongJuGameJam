@@ -15,8 +15,20 @@ public class PS
     }
 }
 
-public class Utils : MonoBehaviour
+public class Utils
 {
+    public static Dictionary<int, int[]> cardPercentDict { get; private set; }
+
+    public static void SetCardPercentDict()
+    {
+        cardPercentDict = new Dictionary<int, int[]>();
+        cardPercentDict.Add(1,new int[] { 0, 10, 30, 60 });
+        cardPercentDict.Add(2,new int[] { 5, 15, 30, 50 });
+        cardPercentDict.Add(3,new int[] { 20, 20, 30, 30 });
+        cardPercentDict.Add(4,new int[] { 20, 30, 30, 20 });
+    }
+
+
     private static Player _playerRef;
     public static Player PlayerRef
     {
@@ -24,7 +36,7 @@ public class Utils : MonoBehaviour
         {
             if (_playerRef == null)
             {
-                _playerRef = FindObjectOfType<Player>();
+                _playerRef = GameObject.FindObjectOfType<Player>();
             }
 
             return _playerRef;

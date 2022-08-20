@@ -13,7 +13,6 @@ public class ButtonClickSound : SoundPlayer
     {
         button = GetComponent<Button>();
         button.onClick.AddListener(() => { PlayClip(_buttonClickSound); });
-        VFX();
     }
 
 }

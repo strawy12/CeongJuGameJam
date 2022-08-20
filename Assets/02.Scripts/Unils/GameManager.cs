@@ -5,6 +5,9 @@ using UnityEngine;
 public class GameManager : MonoSingleton<GameManager>
 {
     [SerializeField] private PoolingListSO _poolingList;
+    [SerializeField] private SkillEffectFade _bloodEffect;
+    [SerializeField] private SkillEffectFade _blizardEffect;
+
 
     private void Awake()
     {
@@ -21,4 +24,12 @@ public class GameManager : MonoSingleton<GameManager>
         }
     }
 
+    public void StartBlizardEffect()
+    {
+        _blizardEffect.Showeffect();
+    }
+    public void StartBloodEffect()
+    {
+        _bloodEffect.Showeffect();
+    }
 }

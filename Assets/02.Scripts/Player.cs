@@ -13,6 +13,13 @@ public class Player : MonoBehaviour
     {
     }
 
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.A))
+        {
+            TakeDamage(maxHp);
+        }
+    }
     public void InitHp()
     {
         currentHp = maxHp;

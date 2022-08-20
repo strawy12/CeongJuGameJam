@@ -1,14 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.UI;
 
 public class AudioSetting : MonoBehaviour
 {
     [SerializeField] private Toggle _bgmToggle;
     [SerializeField] private Toggle _vfxToggle;
-    public bool _useBgm;
-    public bool _useVFX;
+    [SerializeField] private AudioMixer _mixer;
     private void Awake()
     {
         SetBGM();
@@ -17,10 +17,10 @@ public class AudioSetting : MonoBehaviour
 
     public void SetBGM()
     {
-        _useBgm = !_bgmToggle.isOn;
+        _mixer.SetFloat("BGM",  _bgmToggle.isOn ? -80f:-20f);
     }
     public void SetVFX()
     {
-        _useVFX = !_vfxToggle.isOn;
+        _mixer.SetFloat("Effect", _vfxToggle.isOn ? -80f : 20f);
     }
 }

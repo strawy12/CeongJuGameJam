@@ -38,10 +38,12 @@ public class CardManager : MonoSingleton<CardManager>
 
     private IEnumerator Start()
     {
+        Utils.SetCardPercentDict();
+
         graphicRaycaster = GetComponent<GraphicRaycaster>();
         soundManager = GetComponent<CardSoundManager>();
 
-        EventManager.StartListening("GameStop", Release);
+        EventManager.StartListening("GameOver", Release);
         EventManager.StartListening("GameStart", Init);
         yield return new WaitForEndOfFrame();
 
@@ -59,7 +61,7 @@ public class CardManager : MonoSingleton<CardManager>
 
     private IEnumerator IgnoreTimer()
     {
-        yield return new WaitForSeconds(300f);
+        yield return new WaitForSeconds(150f);
         ignoreVampire = false;
     }
 
@@ -128,24 +130,7 @@ public class CardManager : MonoSingleton<CardManager>
     {
         Item item = GetRandomItem();
 
-        switch (item.grade)
-        {
-            case 1:
-                SetCardItemPercent(new int[] { 0, 10, 30, 60 });
-                break;
-
-            case 2:
-                SetCardItemPercent(new int[] { 5, 15, 30, 50 });
-                break;
-
-            case 3:
-                SetCardItemPercent(new int[] { 20, 20, 30, 30 });
-                break;
-
-            case 4:
-                SetCardItemPercent(new int[] { 20, 30, 30, 20 });
-                break;
-        }
+        SetCardItemPercent(Utils.cardPercentDict[item.grade]);
 
         return item;
     }
@@ -169,6 +154,7 @@ public class CardManager : MonoSingleton<CardManager>
             }
         }
 
+        Debug.Log("Randdom null");
         return null;
     }
 

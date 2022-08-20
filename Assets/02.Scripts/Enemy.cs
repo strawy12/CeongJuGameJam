@@ -260,6 +260,7 @@ public class Enemy : PoolableMono, IKnockback, IHittable
         InitValue();
         _spriteRenderer.color = Color.white;
         isDead = false;
+        _spriteRenderer.material.SetFloat("_Dissolve", 1f);
     }
 
 

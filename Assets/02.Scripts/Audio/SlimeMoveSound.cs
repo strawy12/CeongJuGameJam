@@ -9,8 +9,7 @@ public class SlimeMoveSound : SoundPlayer
 
     private void Start()
     {
-        VFX();
-        StartCoroutine("MoveSound()");
+        StartCoroutine(MoveSound());
     }
     IEnumerator MoveSound()
     {
