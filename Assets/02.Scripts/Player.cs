@@ -21,5 +21,10 @@ public class Player : MonoBehaviour
         currentHp -= damage;
 
         hpBar.SetHealth(currentHp);
+
+        if (currentHp <= 0)
+        {
+            EventManager.TriggerEvent("GameOver");
+        }
     }
 }

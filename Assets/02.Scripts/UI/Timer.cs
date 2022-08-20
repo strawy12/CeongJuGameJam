@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class Timer : MonoBehaviour
 {
     [SerializeField] private float _maxTImer;
-    private TMP_Text _timerText;
+    public TMP_Text _timerText;
     private float _nowTime;
 
     private void Awake()
@@ -17,12 +17,19 @@ public class Timer : MonoBehaviour
     private void Start()
     {
         StartTimer();
+
+        EventManager.StartListening("GameOver", StopTimer);
     }
 
     private void StartTimer()
     {
         _nowTime = _maxTImer;
         StartCoroutine(TimerCoroutine());
+    }
+
+    private void StopTimer()
+    {
+        StopAllCoroutines();
     }
 
     private IEnumerator TimerCoroutine()
@@ -35,8 +42,15 @@ public class Timer : MonoBehaviour
             _nowTime += 1f;
             yield return new WaitForSeconds(1f);
         }
-
-
     }
 
+    private void OnDestroy()
+    {
+        EventManager.StopListening("GameOver", StopTimer);
+    }
+
+    private void OnApplicationQuit()
+    {
+        EventManager.StopListening("GameOver", StopTimer);
+    }
 }

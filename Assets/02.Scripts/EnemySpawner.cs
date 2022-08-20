@@ -14,17 +14,22 @@ public class EnemySpawner : MonoBehaviour
     public float enemyIncreaseValueTime;
 
     public bool isSingleSpawn = true;
-
+    private bool isGameOver = false;
     private void Start()
     {
         foreach (GameObject enemy in enemyPrefabs)
         {
             enemy.GetComponent<Enemy>().InitValue();
         }
+
+        EventManager.StartListening("GameOver", StopSpawn);
     }
 
     private void Update()
     {
+        if (isGameOver)
+            return;
+
         spawnTime += Time.deltaTime;
         enemyIncreaseValueTime += Time.deltaTime;
 
@@ -59,5 +64,20 @@ public class EnemySpawner : MonoBehaviour
                     new Vector3(Random.Range(-spawnPositionX, spawnPositionX), spawnPositionY, 0), Quaternion.identity);
             }
         }
+    }
+
+    private void StopSpawn()
+    {
+        isGameOver = true;
+    }
+
+    private void OnDestroy()
+    {
+        EventManager.StopListening("GameOver", StopSpawn);
+    }
+
+    private void OnApplicationQuit()
+    {
+        EventManager.StopListening("GameOver", StopSpawn);
     }
 }
