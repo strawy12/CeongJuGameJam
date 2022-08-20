@@ -18,6 +18,7 @@ public class Timer : MonoBehaviour
     {
         StartTimer();
 
+        EventManager.StartListening("GameStart", StartTimer);
         EventManager.StartListening("GameOver", StopTimer);
     }
 
@@ -47,10 +48,12 @@ public class Timer : MonoBehaviour
     private void OnDestroy()
     {
         EventManager.StopListening("GameOver", StopTimer);
+        EventManager.StopListening("GameStart", StartTimer);
     }
 
     private void OnApplicationQuit()
     {
         EventManager.StopListening("GameOver", StopTimer);
+        EventManager.StopListening("GameStart", StartTimer);
     }
 }
