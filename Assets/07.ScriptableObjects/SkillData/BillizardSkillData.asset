@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BillizardSkillData
   m_EditorClassIdentifier: 
   cardName: "\uBE59\uACB0"
-  radius: 2.8
+  radius: 2
   startDelay: 0
   afterDelay: 0
   ccList:
@@ -24,4 +24,4 @@ MonoBehaviour:
     ccDuration: 3
     ccAamout: 20
   isImmediated: 0
-  skillDuration: 3
+  skillDuration: 2

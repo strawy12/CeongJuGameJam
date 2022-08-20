@@ -2295,7 +2295,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gaugeTemp: {fileID: 289660758}
-  _generateTime: 0.1
+  _generateTime: 1
   _maxMagicCost: 10
 --- !u!222 &446156448
 CanvasRenderer:
