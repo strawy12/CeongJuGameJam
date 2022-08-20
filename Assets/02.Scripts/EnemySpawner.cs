@@ -14,15 +14,17 @@ public class EnemySpawner : MonoBehaviour
     public float enemyIncreaseValueTime;
 
     public bool isSingleSpawn = true;
-    private bool isGameOver = false;
+    private bool isPlaying = false;
+
     private void Start()
     {
         EventManager.StartListening("GameOver", StopSpawn);
+        EventManager.StartListening("GameStart", StartSpawn);
     }
 
     private void Update()
     {
-        if (isGameOver)
+        if (!isPlaying)
             return;
 
         spawnTime += Time.deltaTime;
@@ -67,18 +69,30 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
+    private void StartSpawn()
+    {
+        foreach (GameObject enemy in enemyPrefabs)
+        {
+            enemy.GetComponent<Enemy>().InitValue();
+        }
+
+        isPlaying = true;
+    }
+
     private void StopSpawn()
     {
-        isGameOver = true;
+        isPlaying = false;
     }
 
     private void OnDestroy()
     {
         EventManager.StopListening("GameOver", StopSpawn);
+        EventManager.StopListening("GameStart", StartSpawn);
     }
 
     private void OnApplicationQuit()
     {
         EventManager.StopListening("GameOver", StopSpawn);
+        EventManager.StopListening("GameStart", StartSpawn);
     }
 }

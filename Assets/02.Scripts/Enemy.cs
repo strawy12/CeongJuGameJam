@@ -45,6 +45,8 @@ public class Enemy : PoolableMono, IKnockback, IHittable
     private void Start()
     {
         hpBar.SetMaxHealth(currentHp);
+
+        EventManager.StartListening("GameOver", DestroyObject);
     }
 
     private void FixedUpdate()
@@ -186,6 +188,11 @@ public class Enemy : PoolableMono, IKnockback, IHittable
         _givedCCEffectList.Remove(ECrowdControlType.Heal);
     }
 
+    private void DestroyObject()
+    {
+        Destroy(gameObject);
+    }
+
     #region Knockback
     public void GetKnockback(Vector2 dir, float power, float duration)
     {
@@ -220,4 +227,15 @@ public class Enemy : PoolableMono, IKnockback, IHittable
         _rigid ??= GetComponent<Rigidbody2D>();
     }
     #endregion
+
+
+    private void OnApplicationQuit()
+    {
+        EventManager.StopListening("GameOver", DestroyObject);
+    }
+
+    private void OnDestroy()
+    {
+        EventManager.StopListening("GameOver", DestroyObject);
+    }
 }
