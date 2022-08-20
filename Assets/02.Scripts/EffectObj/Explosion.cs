@@ -5,10 +5,9 @@ using UnityEngine;
 public class Explosion : PoolableMono
 {
     private Animator _animator;
-    private readonly int HASH_EXPLOSION = Animator.StringToHash("Explosion");
     public void Init()
     {
-        _animator.Play(HASH_EXPLOSION);
+        _animator.Play("Explosion");
     }
 
     public void Release()

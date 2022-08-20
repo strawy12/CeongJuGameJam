@@ -17,8 +17,6 @@ MonoBehaviour:
     poolCnt: 3
   - prefab: {fileID: -4745657344570501580, guid: b91851b4ab7751d46a1834434219c860, type: 3}
     poolCnt: 3
-<<<<<<< Updated upstream
-=======
   - prefab: {fileID: 4110186275035070007, guid: 2a0ff95341197954784accdc7f17f9cb, type: 3}
     poolCnt: 5
   - prefab: {fileID: 6727878101100807268, guid: 6ede1cb68b1fa9842bdef3f3cc32a71e, type: 3}
@@ -41,4 +39,3 @@ MonoBehaviour:
     poolCnt: 5
   - prefab: {fileID: 131210550119791647, guid: 581299947de535647a697ca5ef1e3e3d, type: 3}
     poolCnt: 5
->>>>>>> Stashed changes

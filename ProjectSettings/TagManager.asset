@@ -55,6 +55,12 @@ TagManager:
   - name: Wall
     uniqueID: 1623970847
     locked: 0
+  - name: Shadow
+    uniqueID: 3457113033
+    locked: 0
+  - name: Torch
+    uniqueID: 1220943869
+    locked: 0
   - name: UI
     uniqueID: 1340679287
     locked: 0

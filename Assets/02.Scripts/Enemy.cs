@@ -28,6 +28,9 @@ public class Enemy : MonoBehaviour, IKnockback, IHittable
 
     public HpBar hpBar;
 
+    private List<ECrowdControlType> _givedCCEffectList = new List<ECrowdControlType>();
+    private bool _isDamaged;
+
     private void Awake()
     {
         if (hpBar == null)
@@ -88,11 +91,15 @@ public class Enemy : MonoBehaviour, IKnockback, IHittable
 
     public void GetHit(float damage, GameObject damageDealer, float duration)
     {
+        if (_isDamaged) return;
+        _isDamaged = true;
         StartCoroutine(HitDamageCoroutine(damage, duration));
     }
 
     public void GetCrowdCtrl(ECrowdControlType type, float amount, float duration)
     {
+        if (_givedCCEffectList.TrueForAll(x => x == type)) return;
+
         switch (type)
         {
             case ECrowdControlType.Slow:
@@ -113,6 +120,8 @@ public class Enemy : MonoBehaviour, IKnockback, IHittable
                 StartCoroutine(HitDamageCoroutine(amount, duration));
                 break;
         }
+
+        _givedCCEffectList.Add(type);
     }
 
     private IEnumerator SlowCoroutine(float amount, float duration)
