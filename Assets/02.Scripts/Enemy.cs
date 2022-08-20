@@ -23,7 +23,8 @@ public class Enemy : MonoBehaviour, IKnockback, IHittable
 
     public float damage;
 
-    private Rigidbody2D rigid;
+    private bool isSlowing;
+    private bool isStunning;
 
     public HpBar hpBar;
 
@@ -38,14 +39,14 @@ public class Enemy : MonoBehaviour, IKnockback, IHittable
 
     private void Start()
     {
-        rigid = GetComponent<Rigidbody2D>();
-
         hpBar.SetMaxHealth(currentHp);
     }
 
     private void FixedUpdate()
     {
-        rigid.MovePosition(rigid.position + Vector2.down * (moveSpeed / 4) * Time.fixedDeltaTime);
+        if (isStunning)
+            return;
+        _rigid.MovePosition(_rigid.position + Vector2.down * (moveSpeed / 4) * Time.fixedDeltaTime);
     }
 
 
@@ -96,14 +97,42 @@ public class Enemy : MonoBehaviour, IKnockback, IHittable
         {
             case ECrowdControlType.Slow:
                 // 스피드 줄이기
+                if (isSlowing)
+                    return;
+
+                StartCoroutine(SlowCoroutine(amount, duration));
                 break;
             case ECrowdControlType.Stun:
+
                 // 움직임 멈춤
+                StartCoroutine(StunCoroutine(duration));
                 break;
             case ECrowdControlType.Heal:
                 // 데미지만 닳게 하기
+
+                StartCoroutine(HitDamageCoroutine(amount, duration));
                 break;
         }
+    }
+
+    private IEnumerator SlowCoroutine(float amount, float duration)
+    {
+        moveSpeed -= amount;
+        isSlowing = true;
+
+        yield return new WaitForSeconds(duration);
+
+        moveSpeed += amount;
+        isSlowing = false;  
+    }
+
+    private IEnumerator StunCoroutine(float duration)
+    {
+        isStunning = true;
+
+        yield return new WaitForSeconds(duration);
+
+        isStunning = false; 
     }
 
     private IEnumerator HitDamageCoroutine(float damage, float duration)
