@@ -9,5 +9,6 @@ public class BackGroundPlayer : SoundPlayer
     void Start()
     {
         PlayClip(_backGroundClip);
+        BGM();
     }
 }
