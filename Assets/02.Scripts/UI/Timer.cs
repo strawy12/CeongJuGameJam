@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class Timer : MonoBehaviour
 {
-    [SerializeField] private float _maxTImer;
+    [SerializeField] private float _maxTimer;
     public TMP_Text _timerText;
     private float _nowTime;
 
@@ -20,11 +20,13 @@ public class Timer : MonoBehaviour
 
         EventManager.StartListening("GameStart", StartTimer);
         EventManager.StartListening("GameOver", StopTimer);
+
+        transform.parent.gameObject.SetActive(false);
     }
 
     private void StartTimer()
     {
-        _nowTime = _maxTImer;
+        _nowTime = _maxTimer;
         StartCoroutine(TimerCoroutine());
     }
 

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardName: "\uAD11\uC790\uD3ED\uD0C4"
   radius: 2.5
-  startDelay: 0
+  startDelay: 1
   afterDelay: 0
   ccList:
   - ccType: 2

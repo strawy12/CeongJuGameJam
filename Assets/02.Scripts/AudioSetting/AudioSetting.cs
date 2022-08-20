@@ -5,22 +5,22 @@ using UnityEngine.UI;
 
 public class AudioSetting : MonoBehaviour
 {
+    [SerializeField] private Toggle _bgmToggle;
+    [SerializeField] private Toggle _vfxToggle;
+    public bool _useBgm;
+    public bool _useVFX;
     private void Awake()
     {
         SetBGM();
         SetVFX();
     }
-    [SerializeField] private Toggle _bgmToggle;
-    [SerializeField] private Toggle _vfxToggle;
-    public bool _useBgm;
-    public bool _useVFX;
 
     public void SetBGM()
     {
-        _useBgm = _bgmToggle.isOn;
+        _useBgm = !_bgmToggle.isOn;
     }
     public void SetVFX()
     {
-        _useVFX = _vfxToggle.isOn;
+        _useVFX = !_vfxToggle.isOn;
     }
 }

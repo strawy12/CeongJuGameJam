@@ -10,8 +10,8 @@ public class Push : PoolableMono
     private readonly int HASH_Push = Animator.StringToHash("Push");
     public void Init()
     {
-        Vector3 pos = Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 0f));
-        Vector3 dest = Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 1f));
+        Vector3 pos = Utils.MainCam.ViewportToWorldPoint(new Vector3(0.5f, 0f));
+        Vector3 dest = Utils.MainCam.ViewportToWorldPoint(new Vector3(0.5f, 1f));
         pos.z = 0f;
         dest.z = 0f;
         transform.position = pos;

@@ -12,6 +12,8 @@ public class Item
     public int grade;
     public int percent;
     public AudioClip skillSound;
+
+    public bool ignoreItem;
 }
 
 [CreateAssetMenu(fileName = "ItemSO", menuName = "Scriptable Object/ItemSO")]

@@ -21,7 +21,7 @@ MonoBehaviour:
     ccDuration: 1
     ccAamout: 20
   - ccType: -1
-    ccDuration: 1
-    ccAamout: 30
+    ccDuration: 0.5
+    ccAamout: 5
   isImmediated: 1
   skillDuration: 0

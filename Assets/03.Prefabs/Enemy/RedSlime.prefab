@@ -57,7 +57,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: c31cb3613417373429dd1ccd503e21ed, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -76,7 +76,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -982135921
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 1
   m_Sprite: {fileID: 72925299, guid: 7a8cc34724b9b6849aa0f7b932b0b317, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -101,12 +101,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8bc65351d4aecb47b52debe025243c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  deathDuration: 1
   enemyName: "\uBD89\uC740 \uC2AC\uB77C\uC784"
-  currentHp: 405
+  currentHp: 150
   maxHP: 400
   increaseHP: 15
   baseHp: 150
-  moveSpeed: 8.0999975
+  moveSpeed: 2
   increaseMoveSpeed: 1
   maxMoveSpeed: 8
   baseMoveSpeed: 2

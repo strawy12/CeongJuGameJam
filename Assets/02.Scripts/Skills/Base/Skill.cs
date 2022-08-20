@@ -64,7 +64,6 @@ public abstract class Skill : PoolableMono
         {
             if (hitAgent != null && ccEffect.ccType > ECrowdControlType.None)
             {
-                Debug.Log(ccEffect.ccType);
                 hitAgent?.GetCrowdCtrl(ccEffect.ccType, ccEffect.ccAamout, ccEffect.ccDuration);
             }
 
@@ -76,17 +75,11 @@ public abstract class Skill : PoolableMono
             else if (ccEffect.ccType == ECrowdControlType.Knockback)
             {
                 IKnockback knockbackAgent = hit.GetComponent<IKnockback>();
-                Vector2 dir = transform.position - hit.transform.position;
 
-                knockbackAgent?.GetKnockback(dir.normalized, ccEffect.ccAamout, ccEffect.ccDuration);
+                knockbackAgent?.GetKnockback(Vector2.up, ccEffect.ccAamout, ccEffect.ccDuration);
             }
 
         }
     }
 
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(_detectTrm.position, _skillData.radius);
-    }
 }

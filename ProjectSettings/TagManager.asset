@@ -46,11 +46,11 @@ TagManager:
   - name: BackGround
     uniqueID: 663252849
     locked: 0
-  - name: Monster
-    uniqueID: 3312831375
-    locked: 0
   - name: Wall
     uniqueID: 1623970847
+    locked: 0
+  - name: Monster
+    uniqueID: 3312831375
     locked: 0
   - name: Shadow
     uniqueID: 3457113033

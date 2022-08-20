@@ -30,7 +30,24 @@ public class Utils : MonoBehaviour
             return _playerRef;
         }
     }
+
+    private static Camera _mainCam;
+    public static Camera MainCam
+    {
+        get
+        {
+            if (_mainCam == null)
+            {
+                _mainCam = Camera.main;
+            }
+
+            return _mainCam;
+        }
+    }
+
     public static Quaternion QI => Quaternion.identity;
+
+
 
     public static Vector3 MousePos
     {

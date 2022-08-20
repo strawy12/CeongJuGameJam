@@ -120,7 +120,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 400
-        y: 1040
+        y: 912
         width: 96
         height: 96
       alignment: 0
@@ -140,8 +140,8 @@ TextureImporter:
       name: UI ICONS_WHITE_pixel art_Sprite Sheet_1
       rect:
         serializedVersion: 2
-        x: 784
-        y: 1040
+        x: 528
+        y: 911
         width: 96
         height: 96
       alignment: 0
@@ -153,6 +153,48 @@ TextureImporter:
       bones: []
       spriteID: 3795c25e7362dd3429ed39eae697cef7
       internalID: -1070896476
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI ICONS_WHITE_pixel art_Sprite Sheet_2
+      rect:
+        serializedVersion: 2
+        x: 903
+        y: 523
+        width: 110
+        height: 110
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a20c008c364cd9143ab2087dd35ef530
+      internalID: 1540605355
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI ICONS_WHITE_pixel art_Sprite Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 131
+        width: 121
+        height: 121
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 20, y: 21, z: 21, w: 20}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8e1d3fff03d55484db4c369a2457ae80
+      internalID: -635047133
       vertices: []
       indices: 
       edges: []
@@ -169,7 +211,9 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       UI ICONS_WHITE_pixel art_Sprite Sheet_0: -499492519
+      UI ICONS_WHITE_pixel art_Sprite Sheet_2: 1540605355
       UI ICONS_WHITE_pixel art_Sprite Sheet_1: 460812959
+      UI ICONS_WHITE_pixel art_Sprite Sheet_3: -635047133
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

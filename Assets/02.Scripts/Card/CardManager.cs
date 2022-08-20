@@ -27,6 +27,8 @@ public class CardManager : MonoSingleton<CardManager>
     bool isMyCardDrag;
     bool onMyCardArea;
 
+    bool ignoreVampire = true;
+
     bool isExitDetectArea = false;
 
     bool isPickGrade3Card;
@@ -34,15 +36,17 @@ public class CardManager : MonoSingleton<CardManager>
     private GraphicRaycaster graphicRaycaster;
 
 
-    private void Start()
+    private IEnumerator Start()
     {
         graphicRaycaster = GetComponent<GraphicRaycaster>();
         soundManager = GetComponent<CardSoundManager>();
 
-        Init();
-
-        EventManager.StartListening("GameStart", Release);
+        EventManager.StartListening("GameStop", Release);
         EventManager.StartListening("GameStart", Init);
+        yield return new WaitForEndOfFrame();
+
+        gameObject.SetActive(false);
+        GetComponent<CanvasGroup>().alpha = 1f;
     }
     private void Update()
     {
@@ -53,6 +57,12 @@ public class CardManager : MonoSingleton<CardManager>
         DetectCardArea();
     }
 
+    private IEnumerator IgnoreTimer()
+    {
+        yield return new WaitForSeconds(300f);
+        ignoreVampire = false;
+    }
+
     private void SetCardItemPercent(int[] percents)
     {
         itemSO.items = itemSO.items.OrderBy(x => x.grade).ToArray();
@@ -60,24 +70,44 @@ public class CardManager : MonoSingleton<CardManager>
         int beforeGrade = 1;
         int cardCnt = 0;
         int percent;
+        bool ignore = false;
         for (int i = 0; i < itemSO.items.Length; i++)
         {
-            if (beforeGrade != itemSO.items[i].grade || i == itemSO.items.Length - 1)
+            if (beforeGrade != itemSO.items[i].grade)
             {
                 percent = GetCardGradePercent(beforeGrade, percents);
 
                 beforeGrade = itemSO.items[i].grade;
 
+                if (ignoreVampire)
+                    ignore = (itemSO.items[i - 1].grade == 1);
 
                 for (int j = i - cardCnt; j < i; j++)
                 {
-                    itemSO.items[j].percent = percent / cardCnt;
+                    if (ignore)
+                    {
+                        if (itemSO.items[j].cardName.Equals("ÈíÇ÷"))
+                        {
+                            itemSO.items[j].percent = 0;
+                        }
+
+                        else
+                        {
+                            itemSO.items[j].percent = percent / (cardCnt - 1);
+                        }
+                    }
+                    else
+                    {
+                        itemSO.items[j].percent = percent / cardCnt;
+                    }
+
                 }
 
                 cardCnt = 0;
             }
 
             cardCnt++;
+
         }
 
         percent = GetCardGradePercent(beforeGrade, percents);
@@ -87,7 +117,7 @@ public class CardManager : MonoSingleton<CardManager>
         {
             itemSO.items[cnt--].percent = percent / cardCnt;
         }
-    } 
+    }
 
     private int GetCardGradePercent(int grade, int[] percents)
     {
@@ -98,20 +128,20 @@ public class CardManager : MonoSingleton<CardManager>
     {
         Item item = GetRandomItem();
 
-        switch(item.grade)
+        switch (item.grade)
         {
             case 1:
                 SetCardItemPercent(new int[] { 0, 10, 30, 60 });
                 break;
-         
+
             case 2:
                 SetCardItemPercent(new int[] { 5, 15, 30, 50 });
                 break;
-            
+
             case 3:
                 SetCardItemPercent(new int[] { 20, 20, 30, 30 });
                 break;
-            
+
             case 4:
                 SetCardItemPercent(new int[] { 20, 30, 30, 20 });
                 break;
@@ -128,7 +158,7 @@ public class CardManager : MonoSingleton<CardManager>
         {
             int percent = itemSO.items[i].percent;
 
-            if(num - percent <= 0)
+            if (num - percent <= 0)
             {
                 return itemSO.items[i];
             }
@@ -179,9 +209,9 @@ public class CardManager : MonoSingleton<CardManager>
     void AddCard(bool useEffect = true)
     {
         Card card = null;
-        for(int i =0; i < myCards.Count; i++)
+        for (int i = 0; i < myCards.Count; i++)
         {
-            if(myCards[i].IsEmpty)
+            if (myCards[i].IsEmpty)
             {
                 card = myCards[i];
                 break;
@@ -237,12 +267,13 @@ public class CardManager : MonoSingleton<CardManager>
             selectCard.gameObject.SetActive(true);
             selectCard = null;
             isMyCardDrag = false;
+            EventManager.TriggerEvent("OverMagic");
         }
         else
         {
             _magicCost.UseCost(cost);
             PoolSoundPlayer useCardSoundManager = PoolManager.Inst.Pop("CardUseSound") as PoolSoundPlayer;
-            if(selectCard.clip != null)
+            if (selectCard.clip != null)
                 useCardSoundManager.UseSound(selectCard.clip);
             SpawnSkill(selectCard.item.skillName);
             selectCard.Release();
@@ -271,13 +302,15 @@ public class CardManager : MonoSingleton<CardManager>
 
     #endregion
 
-    private void Release()
+    public void Release()
     {
         myCards.ForEach(x => x.Release());
     }
 
-    private void Init()
+    public void Init()
     {
+        ignoreVampire = true;
+        StartCoroutine(IgnoreTimer());
         SetCardItemPercent(defaultPercents);
 
         for (int i = 0; i < 4; i++)

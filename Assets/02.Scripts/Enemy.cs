@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,7 @@ public class Enemy : PoolableMono, IKnockback, IHittable
     private SpriteRenderer _spriteRenderer;
     private bool _isKnockbacking;
 
+    public float deathDuration;
     public Vector3 HitPoint { get; set; }
 
     public string enemyName;
@@ -24,8 +26,10 @@ public class Enemy : PoolableMono, IKnockback, IHittable
 
     public float damage;
 
+    private bool isDead;
     private bool isSlowing;
     private bool isStunning;
+    private bool isHeal;
 
     public HpBar hpBar;
 
@@ -46,11 +50,12 @@ public class Enemy : PoolableMono, IKnockback, IHittable
     {
         hpBar.SetMaxHealth(currentHp);
 
-        EventManager.StartListening("GameOver", DestroyObject);
+        EventManager.StartListening("GameOver", Die);
     }
 
     private void FixedUpdate()
     {
+        if (isDead) return;
         if (isStunning)
             return;
         if (_isKnockbacking)
@@ -62,9 +67,23 @@ public class Enemy : PoolableMono, IKnockback, IHittable
 
     private void TakeDamage(float damage)
     {
+        if (isDead) return;
         currentHp -= damage;
+        GenerateDamagePopup(damage);
         StartCoroutine(HitEffect());
         hpBar.SetHealth(currentHp);
+
+        if (currentHp <= 0)
+        {
+            Die();
+        }
+    }
+
+    private void GenerateDamagePopup(float damage)
+    {
+        DamagePopup popup = PoolManager.Inst.Pop("DamagePopup") as DamagePopup;
+
+        popup.Setup((int)damage, transform.position + (Vector3.up * 0.5f));
     }
 
     private IEnumerator HitEffect()
@@ -87,11 +106,13 @@ public class Enemy : PoolableMono, IKnockback, IHittable
     public void InitValue()
     {
         currentHp = baseHp;
+        hpBar.SetHealth(currentHp);
         moveSpeed = baseMoveSpeed;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (isDead) return;
         if (collision.gameObject.tag == "Destroy")
         {
             Destroy(gameObject);
@@ -105,6 +126,7 @@ public class Enemy : PoolableMono, IKnockback, IHittable
 
     public void GetHit(float damage, GameObject damageDealer, float duration)
     {
+        if (isDead) return;
         if (_isDamaged) return;
         _isDamaged = true;
         StartCoroutine(HitDamageCoroutine(damage, duration));
@@ -112,8 +134,7 @@ public class Enemy : PoolableMono, IKnockback, IHittable
 
     public void GetCrowdCtrl(ECrowdControlType type, float amount, float duration)
     {
-        if (_givedCCEffectList.Exists(x => x == type)) return;
-
+        if (isDead) return;
         switch (type)
         {
             case ECrowdControlType.Slow:
@@ -124,12 +145,15 @@ public class Enemy : PoolableMono, IKnockback, IHittable
                 StartCoroutine(SlowCoroutine(amount, duration));
                 break;
             case ECrowdControlType.Stun:
+                if (isStunning) return;
                 // øÚ¡˜¿” ∏ÿ√„
                 StartCoroutine(StunCoroutine(duration));
                 break;
             case ECrowdControlType.Heal:
                 // µ•πÃ¡ˆ∏∏ ¥‚∞‘ «œ±‚
 
+                if (isHeal) return;
+                isHeal = true;
                 StartCoroutine(HealCoroutine(amount, duration));
                 break;
         }
@@ -141,7 +165,7 @@ public class Enemy : PoolableMono, IKnockback, IHittable
     {
         moveSpeed -= amount;
         if (moveSpeed < 0)
-            moveSpeed = 0;  
+            moveSpeed = 0;
         isSlowing = true;
 
         yield return new WaitForSeconds(duration);
@@ -164,23 +188,24 @@ public class Enemy : PoolableMono, IKnockback, IHittable
 
     private IEnumerator HitDamageCoroutine(float damage, float duration)
     {
-        int dotDamage = (int)(damage / duration); 
+        int dotDamage = (int)(damage / duration);
         do //(duration > 0f)
         {
             TakeDamage(dotDamage);
-             duration -= 1f;
+            duration -= 1f;
             yield return new WaitForSeconds(1f);
         } while (duration > 0f);
         _isDamaged = false;
+        isHeal = false;
     }
-        private IEnumerator HealCoroutine(float damage, float duration)
+    private IEnumerator HealCoroutine(float damage, float duration)
     {
         int dotDamage = (int)(damage / duration);
         do //(duration > 0f)
         {
             TakeDamage(dotDamage);
             Utils.PlayerRef.GetHeal(dotDamage * 0.25f);
-             duration -= 1f;
+            duration -= 1f;
             yield return new WaitForSeconds(1f);
         } while (duration > 0f);
         _isDamaged = false;
@@ -188,14 +213,19 @@ public class Enemy : PoolableMono, IKnockback, IHittable
         _givedCCEffectList.Remove(ECrowdControlType.Heal);
     }
 
-    private void DestroyObject()
+    private void Die()
     {
-        Destroy(gameObject);
+        isDead = true;
+        Sequence seq = DOTween.Sequence();
+        seq.Append(_spriteRenderer.material.DOFloat(0, "_Dissolve", deathDuration));
+
+        seq.AppendCallback(() => PoolManager.Inst.Push(this));
     }
 
     #region Knockback
     public void GetKnockback(Vector2 dir, float power, float duration)
     {
+        if (isDead) return;
         if (_isKnockbacking) return;
         _isKnockbacking = true;
 
@@ -216,6 +246,7 @@ public class Enemy : PoolableMono, IKnockback, IHittable
         _rigid.velocity = Vector2.zero;
         _isKnockbacking = false;
     }
+    #endregion
 
     public override void Reset()
     {
@@ -225,17 +256,20 @@ public class Enemy : PoolableMono, IKnockback, IHittable
         }
         _spriteRenderer ??= GetComponent<SpriteRenderer>();
         _rigid ??= GetComponent<Rigidbody2D>();
+
+        InitValue();
+        _spriteRenderer.color = Color.white;
+        isDead = false;
     }
-    #endregion
 
 
     private void OnApplicationQuit()
     {
-        EventManager.StopListening("GameOver", DestroyObject);
+        EventManager.StopListening("GameOver", Die);
     }
 
     private void OnDestroy()
     {
-        EventManager.StopListening("GameOver", DestroyObject);
+        EventManager.StopListening("GameOver", Die);
     }
 }

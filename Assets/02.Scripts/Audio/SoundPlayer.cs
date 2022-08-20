@@ -22,25 +22,11 @@ public class SoundPlayer : MonoBehaviour
     }
     protected void VFX()
     {
-        if (_audioSetting._useVFX)
-        {
-            _audioSource.volume = 1.0f;
-        }
-        else
-        {
-            _audioSource.volume = 0;
-        }
+        _audioSource.mute = _audioSetting._useVFX;
     }
     protected void BGM()
     {
-        if (_audioSetting._useBgm)
-        {
-            _audioSource.volume = 1.0f;
-        }
-        else
-        {
-            _audioSource.volume = 0;
-        }
+        _audioSource.mute = _audioSetting._useBgm;
     }
 
 }
