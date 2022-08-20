@@ -11,9 +11,16 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        currentHp = maxHp;
+        EventManager.StartListening("GameStart", InitHp);
 
         hpBar.SetMaxHealth(maxHp);
+    }
+
+    private void InitHp()
+    {
+        currentHp = maxHp;
+
+        hpBar.SetHealth(currentHp);
     }
 
     public void TakeDamage(float damage)

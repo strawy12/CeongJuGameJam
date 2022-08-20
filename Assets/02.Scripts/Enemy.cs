@@ -43,6 +43,8 @@ public class Enemy : MonoBehaviour, IKnockback, IHittable
     private void Start()
     {
         hpBar.SetMaxHealth(currentHp);
+
+        EventManager.StartListening("GameOver", DestroyObject);
     }
 
     private void FixedUpdate()
@@ -157,6 +159,11 @@ public class Enemy : MonoBehaviour, IKnockback, IHittable
         } while (duration > 0f);
     }
 
+    private void DestroyObject()
+    {
+        Destroy(gameObject);
+    }
+
     #region Knockback
     public void GetKnockback(Vector2 dir, float power, float duration)
     {
@@ -181,4 +188,15 @@ public class Enemy : MonoBehaviour, IKnockback, IHittable
         _isKnockbacking = false;
     }
     #endregion
+
+
+    private void OnApplicationQuit()
+    {
+        EventManager.StopListening("GameOver", DestroyObject);
+    }
+
+    private void OnDestroy()
+    {
+        EventManager.StopListening("GameOver", DestroyObject);
+    }
 }
