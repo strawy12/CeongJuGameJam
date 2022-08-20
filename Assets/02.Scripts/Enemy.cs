@@ -40,6 +40,7 @@ public class Enemy : MonoBehaviour, IKnockback, IHittable
     private void Start()
     {
         hpBar.SetMaxHealth(currentHp);
+        GetCrowdCtrl(ECrowdControlType.Stun, 5, 3);
     }
 
     private void FixedUpdate()
@@ -118,6 +119,8 @@ public class Enemy : MonoBehaviour, IKnockback, IHittable
     private IEnumerator SlowCoroutine(float amount, float duration)
     {
         moveSpeed -= amount;
+        if (moveSpeed < 0)
+            moveSpeed = 0;  
         isSlowing = true;
 
         yield return new WaitForSeconds(duration);
