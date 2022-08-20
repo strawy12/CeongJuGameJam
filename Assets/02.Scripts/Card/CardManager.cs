@@ -22,7 +22,7 @@ public class CardManager : MonoSingleton<CardManager>
     [SerializeField] private MagicCost _magicCost;
 
     Card selectCard = null;
-
+    CardSoundManager soundManager = null;
 
     bool isMyCardDrag;
     bool onMyCardArea;
@@ -37,6 +37,7 @@ public class CardManager : MonoSingleton<CardManager>
     private void Start()
     {
         graphicRaycaster = GetComponent<GraphicRaycaster>();
+        soundManager = GetComponent<CardSoundManager>();
 
         SetCardItemPercent(defaultPercents);
 
@@ -206,7 +207,7 @@ public class CardManager : MonoSingleton<CardManager>
 
         Item item = PopItem();
         card.Setup(item);
-
+        soundManager.DrawCardSound();
         card.transform.localScale = Vector3.zero;
 
         if (useEffect)
@@ -251,6 +252,9 @@ public class CardManager : MonoSingleton<CardManager>
         else
         {
             _magicCost.UseCost(cost);
+            PoolSoundPlayer useCardSoundManager = PoolManager.Inst.Pop("CardUseSound") as PoolSoundPlayer;
+            if(selectCard.clip != null)
+                useCardSoundManager.UseSound(selectCard.clip);
             SpawnSkill(selectCard.item.skillName);
             selectCard.Release();
             ReleaseCard();
