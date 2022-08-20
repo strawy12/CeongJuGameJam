@@ -18,8 +18,9 @@ public class Card : PoolableMono, IPointerDownHandler, IPointerUpHandler
 
     public void Setup(Item item)
     {
+        this.item = item;
         cardImage.sprite = item.sprite;
-        cardName.text = item.name;
+        cardName.text = item.cardName;
         cardCost.text = item.cost.ToString();
         _cost = item.cost;
     }

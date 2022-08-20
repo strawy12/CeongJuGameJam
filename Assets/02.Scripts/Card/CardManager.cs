@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
+using System.Linq;
 
 public class CardManager : MonoSingleton<CardManager>
 {
@@ -17,19 +18,22 @@ public class CardManager : MonoSingleton<CardManager>
     [SerializeField] List<Card> myCards;
     [SerializeField] Transform cardTransform; // 카드가 나오는 장소
 
-    List<Item> itemBuffer;
+    [SerializeField] private int[] defaultPercents;
     Card selectCard = null;
     bool isMyCardDrag;
     bool onMyCardArea;
 
+    bool isPickGrade3Card;
 
     private GraphicRaycaster graphicRaycaster;
 
 
     private void Start()
     {
-        SetupItemBuffer();
         graphicRaycaster = GetComponent<GraphicRaycaster>();
+
+        SetCardItemPercent(defaultPercents);
+
         for (int i = 0; i < 4; i++)
         {
             AddCard(false);
@@ -44,34 +48,114 @@ public class CardManager : MonoSingleton<CardManager>
         DetectCardArea();
     }
 
+    private void SetCardItemPercent(int[] percents)
+    {
+        itemSO.items = itemSO.items.OrderBy(x => x.grade).ToArray();
+
+        int beforeGrade = 1;
+        int cardCnt = 0;
+        int percent;
+        for (int i = 0; i < itemSO.items.Length; i++)
+        {
+            if (beforeGrade != itemSO.items[i].grade || i == itemSO.items.Length - 1)
+            {
+                percent = GetCardGradePercent(beforeGrade, percents);
+
+                beforeGrade = itemSO.items[i].grade;
+
+
+                for (int j = i - cardCnt; j < i; j++)
+                {
+                    itemSO.items[j].percent = percent / cardCnt;
+                }
+
+                cardCnt = 0;
+            }
+
+            cardCnt++;
+        }
+
+        percent = GetCardGradePercent(beforeGrade, percents);
+
+        int cnt = itemSO.items.Length - 1;
+        for (int i = 0; i < cardCnt; i++)
+        {
+            itemSO.items[cnt--].percent = percent / cardCnt;
+        }
+    } 
+
+    private int GetCardGradePercent(int grade, int[] percents)
+    {
+        return percents[grade - 1];
+    }
+
     public Item PopItem()
     {
-        if (itemBuffer.Count == 0)
+        Item item = GetRandomItem();
+
+        if (item.grade <= 3)
         {
-            SetupItemBuffer();
+            isPickGrade3Card = true;
         }
-        Item item = itemBuffer[0];
-        itemBuffer.RemoveAt(0);
+
         return item;
     }
 
-    void SetupItemBuffer()
+    private Item GetRandomItem()
     {
-        itemBuffer = new List<Item>(100);
+        if (isPickGrade3Card)
+        {
+            if (myCards.TrueForAll(x => x.item != null && x.item.grade <= 3))
+            {
+                isPickGrade3Card = false;
+                int[] percents = defaultPercents;
+
+                percents[0] = (int)(percents[0] * 1.5f);
+                percents[1] = (int)(percents[1] * 1.5f);
+
+                int overPercent = percents.Sum() - 100;
+
+                if (percents[4] < overPercent * 0.5f)
+                {
+                    overPercent -= percents[4];
+                    percents[4] = 0;
+                    percents[3] -= overPercent;
+                }
+
+                else
+                {
+                    percents[3] -= (int)(overPercent * 0.5f);
+                    percents[4] -= (int)(overPercent * 0.5f);
+                }
+
+                Debug.Log(percents[0]);
+                Debug.Log(percents[1]);
+                Debug.Log(percents[2]);
+                Debug.Log(percents[3]);
+                SetCardItemPercent(percents);
+            }
+        }
+
+        int num = Random.Range(0, 100) + 1;
+
         for (int i = 0; i < itemSO.items.Length; i++)
         {
-            Item item = itemSO.items[i];
-            for (int j = 0; j < item.per; j++)
-                itemBuffer.Add(item);
+            int percent = itemSO.items[i].percent;
+
+            if(num - percent <= 0)
+            {
+                return itemSO.items[i];
+            }
+
+            else
+            {
+                num -= percent;
+            }
         }
-        for (int i = 0; i < itemBuffer.Count; i++)
-        {
-            int rand = Random.Range(i, itemBuffer.Count);
-            Item temp = itemBuffer[i];
-            itemBuffer[i] = itemBuffer[rand];
-            itemBuffer[rand] = temp;
-        }
+
+        return null;
     }
+
 
     private void CardDrag()
     {
@@ -89,6 +173,7 @@ public class CardManager : MonoSingleton<CardManager>
         pointerEventData.position = Input.mousePosition;
         graphicRaycaster.Raycast(pointerEventData, hits);
         onMyCardArea = false;
+
         foreach (var hit in hits)
         {
             if (hit.gameObject.CompareTag("asd"))
@@ -97,7 +182,8 @@ public class CardManager : MonoSingleton<CardManager>
 
                 if (selectCard != null && isMyCardDrag == false)
                 {
-                    selectCard.transform.SetParent(cardTransform);
+                    selectCard.transform.SetParent(cardTransform); 
+                    selectCard = null;
                 }
             }
 
@@ -109,7 +195,10 @@ public class CardManager : MonoSingleton<CardManager>
 
         var card = PoolManager.Inst.Pop("Card") as Card;
         card.transform.SetParent(cardTransform);
-        card.Setup(PopItem());
+
+        Item item = PopItem();
+        Debug.Log(item);
+        card.Setup(item);
         myCards.Add(card);
 
         card.transform.localScale = Vector3.zero;
@@ -147,18 +236,27 @@ public class CardManager : MonoSingleton<CardManager>
         {
             MagicCost.magic -= cost;
 
-            SpawnSkill(selectCard.item.name);
+            SpawnSkill(selectCard.item.skillName);
+
+            myCards.Remove(selectCard);
 
             selectCard.Release();
             selectCard = null;
             isMyCardDrag = false;
+
             AddCard(true);
         }
     }
 
     private void SpawnSkill(string cardName)
     {
+        Skill skill = PoolManager.Inst.Pop(cardName) as Skill;
 
+        if (skill != null)
+        {
+            skill.transform.position = Utils.MousePos;
+            skill.UsingSkill();
+        }
     }
 
     #endregion
