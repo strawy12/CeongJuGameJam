@@ -61,7 +61,7 @@ public class MagicCost : MonoBehaviour
     {
         for(int i =0; i < cost; i++)
         {
-            GameObject gauge = _gaugeList[magic--];
+            GameObject gauge = _gaugeList[--magic];
             gauge.transform.localScale = new Vector3(0f, 1f, 1f);
             gauge.SetActive(false);
         }
