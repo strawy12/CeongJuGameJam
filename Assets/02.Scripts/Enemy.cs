@@ -40,7 +40,6 @@ public class Enemy : MonoBehaviour, IKnockback, IHittable
     private void Start()
     {
         hpBar.SetMaxHealth(currentHp);
-        GetCrowdCtrl(ECrowdControlType.Stun, 5, 3);
     }
 
     private void FixedUpdate()
