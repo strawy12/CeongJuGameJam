@@ -5,35 +5,31 @@ using TMPro;
 
 public class GameOverUI : MonoBehaviour
 {
-    private static GameOverUI instance;
-    public static GameOverUI Instance => instance;
-
     public GameObject gameoverPanel;
 
     public Timer timer;
     public TMP_Text scoreText;
 
 
-    private void Awake()
+    private void Start()
     {
-        if (null == instance)
-        {
-            instance = this;
-
-            DontDestroyOnLoad(this.gameObject);
-        }
-        else
-        {
-            Destroy(this.gameObject);
-        }
+        EventManager.StartListening("GameOver", GameOver);
     }
 
-
-    public void GameOver()
+    private void GameOver()
     {
         gameoverPanel.SetActive(true);
 
-        timer.StopTimer();
         scoreText.text = timer._timerText.text;
+    }
+
+    private void OnDestroy()
+    {
+        EventManager.StopListening("GameOver", GameOver);
+    }
+
+    private void OnApplicationQuit()
+    {
+        EventManager.StopListening("GameOver", GameOver);
     }
 }

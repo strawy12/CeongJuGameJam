@@ -17,6 +17,8 @@ public class Timer : MonoBehaviour
     private void Start()
     {
         StartTimer();
+
+        EventManager.StartListening("GameOver", StopTimer);
     }
 
     private void StartTimer()
@@ -25,7 +27,7 @@ public class Timer : MonoBehaviour
         StartCoroutine(TimerCoroutine());
     }
 
-    public void StopTimer()
+    private void StopTimer()
     {
         StopAllCoroutines();
     }
@@ -40,8 +42,15 @@ public class Timer : MonoBehaviour
             _nowTime += 1f;
             yield return new WaitForSeconds(1f);
         }
-
-
     }
 
+    private void OnDestroy()
+    {
+        EventManager.StopListening("GameOver", StopTimer);
+    }
+
+    private void OnApplicationQuit()
+    {
+        EventManager.StopListening("GameOver", StopTimer);
+    }
 }

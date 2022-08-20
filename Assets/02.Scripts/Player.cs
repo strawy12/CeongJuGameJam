@@ -24,7 +24,7 @@ public class Player : MonoBehaviour
 
         if (currentHp <= 0)
         {
-            GameOverUI.Instance.GameOver();
+            EventManager.TriggerEvent("GameOver");
         }
     }
 }
