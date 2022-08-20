@@ -38,7 +38,7 @@ public class CardManager : MonoBehaviour
     {
         while (true)
         {
-            if(magic < 10)
+            if (magic < 10)
                 magic += 1;
             yield return new WaitForSeconds(time);
         }
@@ -97,7 +97,7 @@ public class CardManager : MonoBehaviour
     {
         if (!onMyCardArea)
         {
-            selectCard.transform.position = Input.mousePosition;
+            selectCard.transform.position = Utils.MousePos;
 
             //selectCard.MoveTransform(Vector3.one, false);
         }
@@ -109,25 +109,26 @@ public class CardManager : MonoBehaviour
         pointerEventData.position = Input.mousePosition;
         graphicRaycaster.Raycast(pointerEventData, hits);
         onMyCardArea = false;
-        foreach(var hit in hits)
+        foreach (var hit in hits)
         {
             if (hit.gameObject.CompareTag("asd"))
             {
                 onMyCardArea = true;
 
-                if(selectCard != null && isMyCardDrag == false)
+                if (selectCard != null && isMyCardDrag == false)
                 {
                     selectCard.transform.SetParent(cardTransform);
                 }
             }
-                
+
         }
     }
 
     void AddCard(bool useEffect = true)
     {
-        var cardObj = Instantiate(cardPrefab, cardTransform);
-        var card = cardObj.GetComponent<Card>();
+
+        var card = PoolManager.Inst.Pop("Card") as Card;
+        card.transform.SetParent(cardTransform);
         card.Setup(PopItem());
         myCards.Add(card);
 
@@ -156,7 +157,7 @@ public class CardManager : MonoBehaviour
     {
         if (selectCard == null) return;
         int cost = selectCard._cost;
-        if(cost > magic)
+        if (cost > magic)
         {
             selectCard.transform.SetParent(cardTransform);
             selectCard = null;
@@ -165,16 +166,20 @@ public class CardManager : MonoBehaviour
         else
         {
             magic -= cost;
-            Destroy(selectCard.gameObject);
+
+            SpawnSkill(selectCard.item.name);
+
+            selectCard.Release();
             selectCard = null;
             isMyCardDrag = false;
             AddCard(true);
         }
-        
-
     }
 
+    private void SpawnSkill(string cardName)
+    {
 
+    }
 
     #endregion
 

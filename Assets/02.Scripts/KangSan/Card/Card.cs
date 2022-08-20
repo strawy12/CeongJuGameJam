@@ -5,8 +5,9 @@ using DG.Tweening;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System;
 
-public class Card : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerExitHandler, IPointerEnterHandler
+public class Card : PoolableMono, IPointerDownHandler, IPointerUpHandler
 {
     [SerializeField] Image cardImage;
     [SerializeField] TMP_Text cardCost;
@@ -14,7 +15,6 @@ public class Card : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPoin
     public int _cost;
 
     public Item item;
-    public PS originPS;
 
     public void Setup(Item item)
     {
@@ -43,12 +43,17 @@ public class Card : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPoin
     {
         CardManager.Instance.CardMouseUp();
     }
-    public void OnPointerExit(PointerEventData eventData)
+
+    public override void Reset()
     {
-        //CardManager.Instance.CardMouseExit(this);
+        transform.localScale = Vector3.zero;
+
+        item = null;
     }
-    public void OnPointerEnter(PointerEventData eventData)
+
+    public void Release()
     {
-       // CardManager.Instance.CardMouseOver(this);
+        Reset();
+        PoolManager.Inst.Push(this);
     }
 }
