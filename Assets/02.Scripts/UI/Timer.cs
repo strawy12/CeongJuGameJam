@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class Timer : MonoBehaviour
 {
     [SerializeField] private float _maxTImer;
-    private TMP_Text _timerText;
+    public TMP_Text _timerText;
     private float _nowTime;
 
     private void Awake()
@@ -23,6 +23,11 @@ public class Timer : MonoBehaviour
     {
         _nowTime = _maxTImer;
         StartCoroutine(TimerCoroutine());
+    }
+
+    public void StopTimer()
+    {
+        StopAllCoroutines();
     }
 
     private IEnumerator TimerCoroutine()
