@@ -6,6 +6,7 @@ using UnityEngine;
 public class SoundPlayer : MonoBehaviour
 {
     private AudioSource _audioSource = null;
+
     private void Awake()
     {
         _audioSource = GetComponent<AudioSource>();
@@ -16,6 +17,28 @@ public class SoundPlayer : MonoBehaviour
         _audioSource.clip = clip;
         _audioSource.Play();
 
+    }
+    protected void VFX()
+    {
+        if (AudioSetting.Instance._useVFX)
+        {
+            _audioSource.volume = 1.0f;
+        }
+        else
+        {
+            _audioSource.volume = 0;
+        }
+    }
+    protected void BGM()
+    {
+        if (AudioSetting.Instance._useBgm)
+        {
+            _audioSource.volume = 1.0f;
+        }
+        else
+        {
+            _audioSource.volume = 0;
+        }
     }
 
 }
