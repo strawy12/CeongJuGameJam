@@ -25,6 +25,7 @@ public class CardManager : MonoBehaviour
     Card selectCard = null;
     bool isMyCardDrag;
     bool onMyCardArea;
+    private CardSoundManager soundManager;
 
     private int magic; // cost에 사용에 필요한 마법
 
@@ -75,6 +76,7 @@ public class CardManager : MonoBehaviour
 
     private void Start()
     {
+        soundManager = GetComponent<CardSoundManager>();
         SetupItemBuffer();
         magicCost();
         graphicRaycaster = GetComponent<GraphicRaycaster>();
@@ -137,6 +139,8 @@ public class CardManager : MonoBehaviour
         if (useEffect)
         {
             card.MoveTransform(Vector3.one, true, 0.75f);
+            if(soundManager != null)
+                soundManager.DrawCardSound();
         }
 
         else
@@ -166,7 +170,8 @@ public class CardManager : MonoBehaviour
         else
         {
             magic -= cost;
-
+            if(soundManager != null)
+                soundManager.UseCardSound();
             SpawnSkill(selectCard.item.name);
 
             selectCard.Release();
