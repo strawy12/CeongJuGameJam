@@ -140,7 +140,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2945229
 RectTransform:
   m_ObjectHideFlags: 0
@@ -774,6 +774,7 @@ MonoBehaviour:
   - {fileID: 157525987806727194, guid: 81815b2080e0f5f449cc29f09a5ce26c, type: 3}
   spawnDelay: 1
   enemyIncreaseValueTime: 0
+  delayDecreaseValueTime: 0
   isSingleSpawn: 1
 --- !u!4 &298679313
 Transform:
@@ -1025,7 +1026,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1623970847
-  m_SortingLayer: 4
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -1821,7 +1822,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &366418089
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1899,7 +1900,7 @@ RectTransform:
   - {fileID: 3122317781010670800}
   - {fileID: 2945229}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -2342,6 +2343,7 @@ MonoBehaviour:
   _gaugeTemp: {fileID: 289660758}
   _generateTime: 1
   _maxMagicCost: 10
+  descreasedValue: 0.05
 --- !u!222 &446156448
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2605,7 +2607,7 @@ RectTransform:
   - {fileID: 1856648757}
   - {fileID: 446156446}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -2625,7 +2627,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _cardDrawClip: {fileID: 8300000, guid: 23c52c89684708f4cbf1447de3cbbede, type: 3}
-  _cardUseClip: {fileID: 8300000, guid: 23c52c89684708f4cbf1447de3cbbede, type: 3}
 --- !u!82 &501119593
 AudioSource:
   m_ObjectHideFlags: 0
@@ -3102,7 +3103,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1623970847
-  m_SortingLayer: 4
+  m_SortingLayer: 2
   m_SortingOrder: 10
   m_Sprite: {fileID: -636079591, guid: f476de429211a10458211ec0a8c1bccc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -3312,7 +3313,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1623970847
-  m_SortingLayer: 4
+  m_SortingLayer: 2
   m_SortingOrder: 10
   m_Sprite: {fileID: -636079591, guid: f476de429211a10458211ec0a8c1bccc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -4625,12 +4626,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a3b356240090ee4d956b8d4b6147de0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startText: {fileID: 0}
+  fadeSpeed: 1
   lobbyCanvas: {fileID: 1814835861}
   inGameCanvas: {fileID: 366418088}
   cardCanvas: {fileID: 501119586}
+  shadow: {fileID: 0}
   gameoverPanel: {fileID: 2945228}
   timer: {fileID: 1572828955}
   scoreText: {fileID: 442301494}
+  player: {fileID: 0}
 --- !u!4 &1142865597
 Transform:
   m_ObjectHideFlags: 0
@@ -7636,7 +7641,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cb43c4c5f2acad459b0055fdc651aa2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxTImer: 0
+  _maxTimer: 0
   _timerText: {fileID: 2063869208}
 --- !u!114 &1572828956
 MonoBehaviour:
@@ -9392,7 +9397,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -837854263
-  m_SortingLayer: 5
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 7bbe895b99975a64d9ef1aac2e0220b5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0.5686275}
@@ -9727,7 +9732,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
