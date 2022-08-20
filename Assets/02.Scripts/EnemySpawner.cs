@@ -8,8 +8,8 @@ public class EnemySpawner : MonoBehaviour
 
     public float spawnDelay;
     private float spawnTime;
-    private float spawnPositionX = 2.5f;
-    private float spawnPositionY = 7f;
+    private float spawnPositionX = 5f;
+    private float spawnPositionY = 12f;
 
     public float enemyIncreaseValueTime;
 
