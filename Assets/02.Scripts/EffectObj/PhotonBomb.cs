@@ -5,11 +5,10 @@ using UnityEngine;
 public class PhotonBomb : PoolableMono
 {
     private Animator _animator;
-    private readonly int HASH_PHONTON = Animator.StringToHash("PhotonBomb");
     public void Init(Vector3 pos)
     {
         transform.position = pos;
-        _animator.Play(HASH_PHONTON);
+        _animator.Play("PothonBomb");
     }
 
     public void ShakeCamera()

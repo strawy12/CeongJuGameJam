@@ -35,12 +35,12 @@ public abstract class Skill : PoolableMono
             }
         }
 
+        PoolManager.Inst.Push(this);
     }
 
     protected virtual void Detect()
     {
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, _skillData.radius, _enemyLayer);
-        Debug.Log(hits.Length);
         foreach (var hit in hits)
         {
             AttackTarget(hit);

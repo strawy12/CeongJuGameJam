@@ -6,7 +6,6 @@ using UnityEngine;
 public class Billizard : PoolableMono
 {
     private Animator _animator;
-    private readonly int HASH_BLLIZARD = Animator.StringToHash("Blizard");
 
     public override void Reset()
     {
@@ -17,7 +16,7 @@ public class Billizard : PoolableMono
     [ContextMenu("11")]
     public void Init(Vector3 pos)
     {
-        _animator.Play(HASH_BLLIZARD);
+        _animator.Play("Billizard");
         transform.localScale = Vector3.zero;
         transform.position = pos;
 

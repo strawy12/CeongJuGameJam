@@ -14,14 +14,20 @@ public class CardManager : MonoSingleton<CardManager>
     //}
 
     [SerializeField] ItemSO itemSO;
-    [SerializeField] GameObject cardPrefab;
     [SerializeField] List<Card> myCards;
     [SerializeField] Transform cardTransform; // 카드가 나오는 장소
 
     [SerializeField] private int[] defaultPercents;
+    [SerializeField] private HoldCard _holdCardIamge;
+    [SerializeField] private MagicCost _magicCost;
+
     Card selectCard = null;
+
+
     bool isMyCardDrag;
     bool onMyCardArea;
+
+    bool isExitDetectArea = false;
 
     bool isPickGrade3Card;
 
@@ -115,23 +121,19 @@ public class CardManager : MonoSingleton<CardManager>
 
                 int overPercent = percents.Sum() - 100;
 
-                if (percents[4] < overPercent * 0.5f)
+                if (percents[3] < overPercent * 0.5f)
                 {
-                    overPercent -= percents[4];
-                    percents[4] = 0;
-                    percents[3] -= overPercent;
+                    overPercent -= percents[3];
+                    percents[3] = 0;
+                    percents[2] -= overPercent;
                 }
 
                 else
                 {
+                    percents[2] -= (int)(overPercent * 0.5f);
                     percents[3] -= (int)(overPercent * 0.5f);
-                    percents[4] -= (int)(overPercent * 0.5f);
                 }
 
-                Debug.Log(percents[0]);
-                Debug.Log(percents[1]);
-                Debug.Log(percents[2]);
-                Debug.Log(percents[3]);
                 SetCardItemPercent(percents);
             }
         }
@@ -161,7 +163,7 @@ public class CardManager : MonoSingleton<CardManager>
     {
         if (!onMyCardArea)
         {
-            selectCard.transform.position = Utils.MousePos;
+            _holdCardIamge.transform.position = Utils.MousePos;
 
             //selectCard.MoveTransform(Vector3.one, false);
         }
@@ -180,10 +182,10 @@ public class CardManager : MonoSingleton<CardManager>
             {
                 onMyCardArea = true;
 
-                if (selectCard != null && isMyCardDrag == false)
+                if (selectCard != null && isMyCardDrag && isExitDetectArea)
                 {
-                    selectCard.transform.SetParent(cardTransform); 
-                    selectCard = null;
+                    selectCard.gameObject.SetActive(true);
+                    ReleaseCard();
                 }
             }
 
@@ -192,14 +194,18 @@ public class CardManager : MonoSingleton<CardManager>
 
     void AddCard(bool useEffect = true)
     {
-
-        var card = PoolManager.Inst.Pop("Card") as Card;
-        card.transform.SetParent(cardTransform);
+        Card card = null;
+        for(int i =0; i < myCards.Count; i++)
+        {
+            if(myCards[i].IsEmpty)
+            {
+                card = myCards[i];
+                break;
+            }
+        }
 
         Item item = PopItem();
-        Debug.Log(item);
         card.Setup(item);
-        myCards.Add(card);
 
         card.transform.localScale = Vector3.zero;
 
@@ -213,39 +219,50 @@ public class CardManager : MonoSingleton<CardManager>
             card.MoveTransform(Vector3.one, false);
         }
     }
+
+    public void SetIsExitDetectArea(bool isExit)
+    {
+        isExitDetectArea = isExit;
+    }
     #region MyCard
 
     public void CardMouseDown(Card card)
     {
         selectCard = card;
+        selectCard.gameObject.SetActive(false);
+        _holdCardIamge.transform.position = Utils.MousePos;
+        _holdCardIamge.gameObject.SetActive(true);
+        _holdCardIamge.sprite = selectCard.item.sprite;
         isMyCardDrag = true;
-
-        selectCard.transform.SetParent(cardTransform.parent);
+        isExitDetectArea = false;
     }
     public void CardMouseUp()
     {
         if (selectCard == null) return;
+
         int cost = selectCard._cost;
         if (cost > MagicCost.magic)
         {
-            selectCard.transform.SetParent(cardTransform);
+            _holdCardIamge.gameObject.SetActive(false);
+            selectCard.gameObject.SetActive(true);
             selectCard = null;
             isMyCardDrag = false;
         }
         else
         {
-            MagicCost.magic -= cost;
-
+            _magicCost.UseCost(cost);
             SpawnSkill(selectCard.item.skillName);
-
-            myCards.Remove(selectCard);
-
             selectCard.Release();
-            selectCard = null;
-            isMyCardDrag = false;
-
+            ReleaseCard();
             AddCard(true);
         }
+    }
+
+    public void ReleaseCard()
+    {
+        _holdCardIamge.gameObject.SetActive(false);
+        selectCard = null;
+        isMyCardDrag = false;
     }
 
     private void SpawnSkill(string cardName)

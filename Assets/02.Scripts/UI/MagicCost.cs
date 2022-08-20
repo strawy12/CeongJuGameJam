@@ -57,6 +57,17 @@ public class MagicCost : MonoBehaviour
         }
     }
 
+    public void UseCost(int cost)
+    {
+        for(int i =0; i < cost; i++)
+        {
+            GameObject gauge = _gaugeList[magic--];
+            gauge.transform.localScale = new Vector3(0f, 1f, 1f);
+            gauge.SetActive(false);
+        }
+        _magicCostText.text = magic.ToString();
+    }
+
 
 
 }
