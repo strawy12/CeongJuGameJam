@@ -5,10 +5,8 @@ using UnityEngine.UI;
 
 public class AudioSetting : MonoBehaviour
 {
-    public static AudioSetting Instance { get; private set; }
     private void Awake()
     {
-        Instance = this;
         SetBGM();
         SetVFX();
     }
