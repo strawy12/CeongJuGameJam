@@ -39,12 +39,10 @@ public class CardManager : MonoSingleton<CardManager>
         graphicRaycaster = GetComponent<GraphicRaycaster>();
         soundManager = GetComponent<CardSoundManager>();
 
-        SetCardItemPercent(defaultPercents);
+        Init();
 
-        for (int i = 0; i < 4; i++)
-        {
-            AddCard(false);
-        }
+        EventManager.StartListening("GameStart", Release);
+        EventManager.StartListening("GameStart", Init);
     }
     private void Update()
     {
@@ -272,5 +270,32 @@ public class CardManager : MonoSingleton<CardManager>
     }
 
     #endregion
+
+    private void Release()
+    {
+        myCards.ForEach(x => x.Release());
+    }
+
+    private void Init()
+    {
+        SetCardItemPercent(defaultPercents);
+
+        for (int i = 0; i < 4; i++)
+        {
+            AddCard(false);
+        }
+    }
+
+    private void OnApplicationQuit()
+    {
+        EventManager.StopListening("GameStart", Release);
+        EventManager.StopListening("GameStart", Init);
+    }
+
+    private void OnDestroy()
+    {
+        EventManager.StopListening("GameStart", Release);
+        EventManager.StopListening("GameStart", Init);
+    }
 
 }

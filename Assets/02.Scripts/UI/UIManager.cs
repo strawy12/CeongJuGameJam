@@ -51,6 +51,7 @@ public class UIManager : MonoBehaviour
     private void GameOver()
     {
         gameoverPanel.SetActive(true);
+        cardCanvas.SetActive(false);
 
         scoreText.text = timer._timerText.text;
     }
