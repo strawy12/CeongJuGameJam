@@ -11,6 +11,7 @@ public class Item
     public int cost; //카드 코스트
     public int grade;
     public int percent;
+    public AudioClip skillSound;
 }
 
 [CreateAssetMenu(fileName = "ItemSO", menuName = "Scriptable Object/ItemSO")]

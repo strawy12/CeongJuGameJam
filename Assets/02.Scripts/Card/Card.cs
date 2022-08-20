@@ -15,6 +15,7 @@ public class Card : MonoBehaviour, IPointerDownHandler
     public int _cost;
 
     public Item item;
+    public AudioClip clip;
 
     public bool IsEmpty { get; private set; }
 
@@ -33,6 +34,7 @@ public class Card : MonoBehaviour, IPointerDownHandler
         cardName.text = item.cardName;
         cardCost.text = item.cost.ToString();
         _cost = item.cost;
+        clip = item.skillSound;
 
         IsEmpty = false;
     }

@@ -18,34 +18,40 @@ MonoBehaviour:
     sprite: {fileID: 21300000, guid: 4072aa73c29c90448a0180c83e979cb4, type: 3}
     cost: 6
     grade: 1
-    percent: 20
+    percent: 15
+    skillSound: {fileID: 8300000, guid: eec1b8a9d219eb54c84a8c836462fa42, type: 3}
   - cardName: "\uB208\uBCF4\uB77C"
     skillName: Billizard
     sprite: {fileID: 21300000, guid: d9b1c5c9ec21426408a64085ad432007, type: 3}
     cost: 3
     grade: 2
-    percent: 10
+    percent: 15
+    skillSound: {fileID: 8300000, guid: 317ad7a3a7379864d973438d6a32f817, type: 3}
   - cardName: "\uBA54\uD14C\uC624"
     skillName: Meteor
     sprite: {fileID: 21300000, guid: f189f29a66436474f837e83a2dfa35df, type: 3}
     cost: 6
     grade: 2
-    percent: 10
+    percent: 15
+    skillSound: {fileID: 8300000, guid: 16f1cc956fe63144f8ead4c4633a68da, type: 3}
   - cardName: "\uAD11\uC790\uD3ED\uBC1C"
     skillName: PhotonBomb
     sprite: {fileID: 21300000, guid: 6fa3b1d7d92dfb449bec0481c95b30a4, type: 3}
     cost: 2
     grade: 3
-    percent: 15
+    percent: 11
+    skillSound: {fileID: 8300000, guid: 5b2055e79f09f324aab93e42cd1e923d, type: 3}
   - cardName: "\uD68C\uC624\uB9AC\uBC14\uB78C"
     skillName: Push
     sprite: {fileID: 21300000, guid: 78e53eac8dc9faa499a9a10f62a31d06, type: 3}
     cost: 4
     grade: 3
-    percent: 15
+    percent: 11
+    skillSound: {fileID: 8300000, guid: dc6c9e3761efb824ca840e429bb4d843, type: 3}
   - cardName: "\uD638\uB839"
     skillName: Command
     sprite: {fileID: 21300000, guid: 61198f98929fcee448da661597ac0fd9, type: 3}
     cost: 1
     grade: 4
-    percent: 30
+    percent: 33
+    skillSound: {fileID: 8300000, guid: a0c1ff3f798f255458ab29b7c784246e, type: 3}
