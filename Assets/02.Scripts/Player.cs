@@ -9,17 +9,14 @@ public class Player : MonoBehaviour
 
     public HpBar hpBar;
 
+    private GameOverSound gameOverSound;
+
     private void Start()
     {
+        gameOverSound = FindObjectOfType<GameOverSound>();
     }
 
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.A))
-        {
-            TakeDamage(maxHp);
-        }
-    }
+
     public void InitHp()
     {
         currentHp = maxHp;
@@ -36,6 +33,7 @@ public class Player : MonoBehaviour
         if (currentHp <= 0)
         {
             EventManager.TriggerEvent("GameOver");
+            gameOverSound.OverSound();
         }
     }
     

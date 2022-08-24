@@ -5,20 +5,32 @@ using UnityEngine;
 public class SlimeMoveSound : SoundPlayer
 {
     [SerializeField] private AudioClip _slimeMoveClip; // 슬라임 움직이는 소리
-    [SerializeField] private float _repeatTime; // 몇초마다 반복할 것인지
 
-    private void Start()
+    private static int playSoundCnt = 0;
+
+    private bool canPlay;
+    public void SlimeSound()
     {
-        StartCoroutine(MoveSound());
-    }
-    IEnumerator MoveSound()
-    {
-        while (true)
+        if (playSoundCnt < 10 && canPlay == false)
         {
-            PlayClip(_slimeMoveClip);
+            playSoundCnt++;
+            canPlay = true;
+        }
 
-            yield return new WaitForSeconds(_repeatTime);
+        if (!canPlay)
+            return;
+       
+        PlayClip(_slimeMoveClip);
+    }
+
+    private void OnDisable()
+    {
+        if (canPlay)
+        {
+            playSoundCnt--;
+            canPlay = false;
         }
     }
+
 
 }

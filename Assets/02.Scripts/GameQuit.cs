@@ -7,21 +7,18 @@ public class GameQuit : MonoBehaviour
 {
     private bool isClick = false;
 
-    public TextMesh backBtnText;
+    public Text backBtnText;
 
     private void Update()
     {
-        if (Application.platform == RuntimePlatform.Android)
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (Input.GetKeyDown(KeyCode.Escape))
+            if (isClick)
             {
-                if (isClick)
-                {
-                    Application.Quit();
-                }
-
-                StartCoroutine(BackBtnClick());
+                Application.Quit();
             }
+
+            StartCoroutine(BackBtnClick());
         }
     }
 
@@ -34,7 +31,7 @@ public class GameQuit : MonoBehaviour
 
         yield return new WaitForSeconds(1f);
 
-        isClick = false;    
+        isClick = false;
     }
 
     private IEnumerator Fade(float start, float end, float fadeTime)

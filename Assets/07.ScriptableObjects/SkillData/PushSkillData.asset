@@ -19,9 +19,9 @@ MonoBehaviour:
   ccList:
   - ccType: -2
     ccDuration: 1
-    ccAamout: 20
+    ccAamout: 30
   - ccType: 2
-    ccDuration: 1
+    ccDuration: 5
     ccAamout: 0
   isImmediated: 0
   skillDuration: 2

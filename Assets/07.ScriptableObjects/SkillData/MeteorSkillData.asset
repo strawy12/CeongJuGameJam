@@ -19,7 +19,7 @@ MonoBehaviour:
   ccList:
   - ccType: -2
     ccDuration: 1
-    ccAamout: 20
+    ccAamout: 200
   - ccType: -1
     ccDuration: 0.5
     ccAamout: 5

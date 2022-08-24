@@ -6,8 +6,8 @@ public class BackGroundPlayer : SoundPlayer
 {
     [SerializeField] private AudioClip _backGroundClip;
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        PlayClip(_backGroundClip);
+        EventManager.StartListening("GameStart", () => PlayClip(_backGroundClip));
     }
 }

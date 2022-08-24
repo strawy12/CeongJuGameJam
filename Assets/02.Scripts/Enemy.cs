@@ -33,7 +33,6 @@ public class Enemy : PoolableMono, IKnockback, IHittable
 
     public HpBar hpBar;
 
-    private List<ECrowdControlType> _givedCCEffectList = new List<ECrowdControlType>();
     private bool _isDamaged;
 
     private void Awake()
@@ -158,7 +157,6 @@ public class Enemy : PoolableMono, IKnockback, IHittable
                 break;
         }
 
-        _givedCCEffectList.Add(type);
     }
 
     private IEnumerator SlowCoroutine(float amount, float duration)
@@ -172,7 +170,6 @@ public class Enemy : PoolableMono, IKnockback, IHittable
 
         moveSpeed += amount;
         isSlowing = false;
-        _givedCCEffectList.Remove(ECrowdControlType.Slow);
     }
 
     private IEnumerator StunCoroutine(float duration)
@@ -183,7 +180,6 @@ public class Enemy : PoolableMono, IKnockback, IHittable
         yield return new WaitForSeconds(duration);
 
         isStunning = false;
-        _givedCCEffectList.Remove(ECrowdControlType.Stun);
     }
 
     private IEnumerator HitDamageCoroutine(float damage, float duration)
@@ -204,13 +200,12 @@ public class Enemy : PoolableMono, IKnockback, IHittable
         do //(duration > 0f)
         {
             TakeDamage(dotDamage);
-            Utils.PlayerRef.GetHeal(dotDamage * 0.25f);
+            Utils.PlayerRef.GetHeal(dotDamage * 0.1f);
             duration -= 1f;
             yield return new WaitForSeconds(1f);
         } while (duration > 0f);
         _isDamaged = false;
 
-        _givedCCEffectList.Remove(ECrowdControlType.Heal);
     }
 
     private void Die()
@@ -260,6 +255,10 @@ public class Enemy : PoolableMono, IKnockback, IHittable
         InitValue();
         _spriteRenderer.color = Color.white;
         isDead = false;
+        _isDamaged = false;
+        isSlowing = false;
+        isStunning = false;
+        isHeal = false;
         _spriteRenderer.material.SetFloat("_Dissolve", 1f);
     }
 

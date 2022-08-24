@@ -9,17 +9,18 @@ public class EnemySpawner : MonoBehaviour
     public float spawnDelay;
     private float spawnTime;
 
+    private int maxSpawnCnt = 3;
+
     public float enemyIncreaseValueTime;
     public float delayDecreaseValueTime;
 
     public bool isSingleSpawn = true;
     private bool isPlaying = false;
 
-    private float _defaultSpawnDelay;
 
     private void Start()
     {
-        _defaultSpawnDelay = spawnDelay;
+        maxSpawnCnt = 3;
         EventManager.StartListening("GameOver", StopSpawn);
         EventManager.StartListening("GameStart", StartSpawn);
     }
@@ -48,9 +49,10 @@ public class EnemySpawner : MonoBehaviour
             enemyIncreaseValueTime = 0;
         }
 
-        if(spawnDelay > 0.1f && delayDecreaseValueTime >= 120f)
+        if(delayDecreaseValueTime >= 30f)
         {
-            spawnDelay -= 0.1f;
+            maxSpawnCnt += 1;
+            delayDecreaseValueTime = 0f;
         }
 
 
@@ -58,8 +60,8 @@ public class EnemySpawner : MonoBehaviour
 
     private void Spawn()
     {
-        Vector2 minPos = Utils.MainCam.ViewportToWorldPoint(new Vector2(0f, 0f));
-        Vector2 maxPos = Utils.MainCam.ViewportToWorldPoint(new Vector2(1f, 1f));
+        Vector2 minPos = Utils.MainCam.ViewportToWorldPoint(new Vector2(0.1f, 0f));
+        Vector2 maxPos = Utils.MainCam.ViewportToWorldPoint(new Vector2(0.9f, 1f));
 
         if (isSingleSpawn)
         {
@@ -71,7 +73,7 @@ public class EnemySpawner : MonoBehaviour
         }
         else
         {
-            for (int i = 0; i < Random.Range(1, 5); i++)
+            for (int i = 0; i < Random.Range(1, maxSpawnCnt); i++)
             {
                 Vector2 pos = new Vector3(Random.Range(minPos.x, maxPos.x), maxPos.y, 0);
                 var enemy = PoolManager.Inst.Pop(enemyPrefabs[Random.Range(0, enemyPrefabs.Length)].name) as Enemy;
@@ -84,7 +86,8 @@ public class EnemySpawner : MonoBehaviour
 
     private void StartSpawn()
     {
-        spawnDelay = _defaultSpawnDelay;
+        spawnDelay = 1f;
+        maxSpawnCnt = 3;
 
         foreach (GameObject enemy in enemyPrefabs)
         {

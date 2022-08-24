@@ -6,27 +6,28 @@ public class PoolSoundPlayer : PoolableMono
 {
     bool isDie = false;
     UseCardSoundPlayer useCardSoundPlayer = null;
+
+    Coroutine coroutine = null;
     public override void Reset()
     {
-        if(useCardSoundPlayer == null)
-        useCardSoundPlayer = GetComponent<UseCardSoundPlayer>();
-    }
-    private void Update()
-    {
-        if(isDie == false)
-        {
-            //StartCoroutine("Die");
-            isDie = true;
-        }
+        if (useCardSoundPlayer == null)
+            useCardSoundPlayer = GetComponent<UseCardSoundPlayer>();
+
+        isDie = false;
     }
     IEnumerator Die()
     {
+        isDie = true;
         yield return new WaitForSeconds(5f);
-        isDie=true;
         PoolManager.Inst.Push(this);
     }
     public void UseSound(AudioClip clip)
     {
         useCardSoundPlayer.UseCardSound(clip);
+
+        if (!isDie)
+        {
+            coroutine = StartCoroutine(Die());
+        }
     }
 }

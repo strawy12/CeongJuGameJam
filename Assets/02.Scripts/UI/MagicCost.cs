@@ -104,7 +104,7 @@ public class MagicCost : MonoBehaviour
             yield return new WaitForSeconds(time);
             timer++;
 
-            if (time > 0.1f && timer > 30)
+            if (time > 0.5f && timer > 30)
             {
                 time -= descreasedValue;
                 timer = 0;

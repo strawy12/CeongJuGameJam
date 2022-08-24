@@ -38,7 +38,7 @@ public class CardManager : MonoSingleton<CardManager>
 
     private IEnumerator Start()
     {
-        Utils.SetCardPercentDict();
+        //Utils.SetCardPercentDict();
 
         graphicRaycaster = GetComponent<GraphicRaycaster>();
         soundManager = GetComponent<CardSoundManager>();
@@ -61,7 +61,7 @@ public class CardManager : MonoSingleton<CardManager>
 
     private IEnumerator IgnoreTimer()
     {
-        yield return new WaitForSeconds(150f);
+        yield return new WaitForSeconds(120f);
         ignoreVampire = false;
     }
 
@@ -130,8 +130,21 @@ public class CardManager : MonoSingleton<CardManager>
     {
         Item item = GetRandomItem();
 
-        SetCardItemPercent(Utils.cardPercentDict[item.grade]);
-
+        switch(item.grade)
+        {
+            case 1:
+                SetCardItemPercent(new int[] { 0, 10, 30, 60 });
+                break;
+            case 2:
+                SetCardItemPercent(new int[] { 5, 15, 30, 50 });
+                break;
+            case 3:
+                SetCardItemPercent(new int[] { 20, 20, 30, 30 });
+                break;
+            case 4:
+                SetCardItemPercent(new int[] { 20, 30, 30, 20 });
+                break;
+        }
         return item;
     }
 
@@ -154,7 +167,6 @@ public class CardManager : MonoSingleton<CardManager>
             }
         }
 
-        Debug.Log("Randdom null");
         return null;
     }
 
@@ -228,6 +240,8 @@ public class CardManager : MonoSingleton<CardManager>
 
     public void CardMouseDown(Card card)
     {
+        if (selectCard != null) return;
+
         selectCard = card;
         selectCard.gameObject.SetActive(false);
         _holdCardIamge.transform.position = Utils.MousePos;
